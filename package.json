@@ -1,0 +1,19 @@
+{
+  "name": "vaulted-key-provider",
+  "version": "0.1.0",
+  "description": "",
+  "main": "js/index.js",
+  "files": ["js"],
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^14.0.25",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p ."
+  },
+  "author": "",
+  "license": "ISC"
+}
