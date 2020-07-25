@@ -1,4 +1,11 @@
-import { IKeyRefArgs, IVaultedKeyProvider, EncryptedWalletUtils, PublicKeyInfo } from './types'
+import {
+  IKeyRefArgs,
+  IVaultedKeyProvider,
+  EncryptedWalletUtils,
+  PublicKeyInfo,
+  KeyTypes,
+  AddKeyResult
+} from './types'
 
 export class SoftwareKeyProvider implements IVaultedKeyProvider {
   private _encryptedWallet: Buffer
@@ -32,8 +39,53 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
   }
 
   /**
+   * Changes the password encrypting the wallet
+   * @param pass - Old password for wallet decryption
+   * @param newPass - New password for wallet decryption
+   * @example `await vault.changePass(...) Promise<void> <...>`
+   */
+  public async changePass(
+    pass: string,
+    newPass: string
+  ): Promise<void> {
+    this._encryptedWallet = Buffer.from(await this._utils(
+      this.encryptedWallet,
+      this.id,
+      pass,
+      newPass
+    ), 'base64')
+  }
+
+  /**
+   * Adds a key pair of the given type to the encrypted wallet
+   * @param pass - Password for wallet decryption
+   * @param keyType - type of key pair to be added
+   * @param controller - optional controller arguement to add to key info
+   * @example `await vault.newKeyPair(pass, keyType, controller?) Promise<PublicKeyInfo> <...>`
+   */
+  public async newKeyPair(
+    pass: string,
+    keyType: KeyType,
+    controller?: string
+  ): Promise<PublicKeyInfo> {
+    const res = JSON.parse(controller
+      ? await this._utils.newKey(
+        this.encryptedWallet,
+        this.id,
+        pass,
+        keyType
+      ) : await this._utils.newKey(
+        this.encryptedWallet,
+        this.id,
+        pass,
+      )) as AddKeyResult
+    this._encryptedWallet = res.newEncryptedState
+    return res.newKey
+  }
+
+  /**
    * Returns public key from the wallet if present
-   * @param refArgs - Password for seed decryption and ref path
+   * @param refArgs - Password for wallet decryption and ref path
    * @example `await vault.getPubKey({keyRef: ..., encryptionPass: ...}) Promise<PublicKeyInfo> <...>`
    */
   public async getPubKey({
@@ -50,7 +102,7 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
 
   /**
    * Returns all public keys from the wallet
-   * @param pass - Password for seed decryption
+   * @param pass - Password for wallet decryption
    * @example `await vault.getPubKeys(pass) // Promise<PublicKeyInfo[]> <...>`
    */
   public async getPubKeys(pass: string): Promise<PublicKeyInfo[]> {
@@ -63,7 +115,7 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
 
   /**
    * Computes signature given a data buffer
-   * @param refArgs - Password for seed decryption and ref path
+   * @param refArgs - Password for wallet decryption and ref path
    * @param data - The data to sign
    * @example `await vault.sign({keyRef: ..., decryptionPass: ...}, Buffer <...>) // Promise<Buffer> <...>`
    */
@@ -82,7 +134,7 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
 
   /**
    * Decrypts given data using the ref args and optional additional authenticated data
-   * @param refArgs - Password for seed decryption and ref path
+   * @param refArgs - Password for wallet decryption and ref path
    * @param data - The data to decrypt. format depends on referenced key type
    * @example `await vault.decrypt({keyRef: ..., decryptionPass: ...}, Buffer <...>, Buffer <...>) // Promise<Buffer> <...>`
    */

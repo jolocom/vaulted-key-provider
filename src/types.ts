@@ -4,6 +4,11 @@ export interface IKeyRefArgs {
   keyRef: string,
 };
 
+export interface AddKeyResult {
+  newEncryptedState: string,
+  newKey: PublicKeyInfo
+}
+
 export const enum KeyTypes {
   jwsVerificationKey2020 = 'JwsVerificationKey2020',
   ecdsaSecp256k1VerificationKey2019 = 'EcdsaSecp256k1VerificationKey2019',
@@ -100,7 +105,7 @@ export interface CryptoUtils {
 
   encrypt: (
     pkInfo: string,
-    to_encrypt: string,
+    toEncrypt: string,
     aad?: string
   ) => Promise<string>
 };
