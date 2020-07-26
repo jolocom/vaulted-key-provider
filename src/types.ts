@@ -37,21 +37,21 @@ export interface PublicKeyInfo {
   "@context": string[],
   id: string,
   type: KeyTypes,
-  public_key: string
+  publicKeyHex: string
 };
 
 export interface EncryptedWalletUtils {
   newWallet: (
     id: string,
     pass: string
- ) => Promise<string>,
+  ) => Promise<string>,
   
   changePass: (
     encryptedWallet: string,
     id: string,
     oldPass: string,
     newPass: string
- ) => Promise<string>,
+  ) => Promise<string>,
   
   newKey: (
     encryptedWallet: string,
@@ -59,37 +59,37 @@ export interface EncryptedWalletUtils {
     pass: string,
     keyType: string,
     controller?: string
- ) => Promise<string>,
+  ) => Promise<string>,
   
   getKey: (
     encryptedWallet: string,
     id: string,
     pass: string,
-    key_ref: string
- ) => Promise<string>,
+    keyRef: string
+  ) => Promise<string>,
 
   getKeys: (
     encryptedWallet: string,
     id: string,
     pass: string
- ) => Promise<string>,
-  
+  ) => Promise<string>,
+
   sign: (
     encryptedWallet: string,
     id: string,
     pass: string,
     data: string,
-    key_ref: string
- ) => Promise<string>,
+    keyRef: string
+  ) => Promise<string>,
 
   decrypt: (
     encryptedWallet: string,
     id: string,
     pass: string,
     data: string,
-    key_ref: string,
+    keyRef: string,
     aad?: string
- ) => Promise<string>,
+  ) => Promise<string>,
 };
 
 export interface CryptoUtils {

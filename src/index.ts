@@ -4,7 +4,8 @@ export {
   ICryptoProvider,
   PublicKeyInfo,
   EncryptedWalletUtils,
-  CryptoUtils
+  CryptoUtils,
+  KeyTypes
 } from './types'
 export { SoftwareKeyProvider } from './softwareKeyProvider'
 export { getCryptoProvider } from './cryptoProvider'

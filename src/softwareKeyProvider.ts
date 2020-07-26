@@ -6,6 +6,7 @@ import {
   KeyTypes,
   AddKeyResult
 } from './types'
+import base64url from 'base64url' 
 
 export class SoftwareKeyProvider implements IVaultedKeyProvider {
   private _encryptedWallet: Buffer
@@ -13,7 +14,7 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
   private readonly _utils: EncryptedWalletUtils
 
   /**
-   * Initializes the vault with an already encrypted aes 256 cbc seed
+   * Initializes the vault with an already aes-256-gcm encrypted wallet
    * @param utils - crypto function implementations required to perform necessary wallet ops
    * @param encryptedWallet - the wallet ciphertext, aes-256-gcm
    * @param id - the id, linked to the ciphertext as its aad
@@ -25,10 +26,26 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
   }
 
   /**
+   * Initializes an empty vault
+   * @param utils - crypto function implementations required to perform necessary wallet ops
+   * @param id - the id, linked to the ciphertext as its aad
+   * @param pass - the initial password to encrypt the wallet
+   */
+  public static async newEmptyWallet(
+    utils: EncryptedWalletUtils,
+    id: string,
+    pass: string
+  ): Promise<SoftwareKeyProvider> {
+    const emptyWallet = Buffer.from(await utils.newWallet(id, pass), 'base64')
+    return new SoftwareKeyProvider(utils, emptyWallet, id)
+  }
+
+  /**
    * Get the encrypted wallet base64 encoded
    */
   public get encryptedWallet(): string {
-    return this._encryptedWallet.toString('base64')
+    // NOTE base64_URL_ encoding is used here, so  this uses an external lib for encoding 
+    return base64url.encode(this._encryptedWallet)
   }
 
   /**
@@ -48,7 +65,7 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
     pass: string,
     newPass: string
   ): Promise<void> {
-    this._encryptedWallet = Buffer.from(await this._utils(
+    this._encryptedWallet = Buffer.from(await this._utils.changePass(
       this.encryptedWallet,
       this.id,
       pass,
@@ -65,21 +82,24 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
    */
   public async newKeyPair(
     pass: string,
-    keyType: KeyType,
+    keyType: KeyTypes,
     controller?: string
   ): Promise<PublicKeyInfo> {
-    const res = JSON.parse(controller
-      ? await this._utils.newKey(
+    const res_str = controller
+    ? await this._utils.newKey(
         this.encryptedWallet,
         this.id,
         pass,
-        keyType
-      ) : await this._utils.newKey(
-        this.encryptedWallet,
-        this.id,
-        pass,
-      )) as AddKeyResult
-    this._encryptedWallet = res.newEncryptedState
+        keyType,
+        controller
+    ) : await this._utils.newKey(
+      this.encryptedWallet,
+      this.id,
+      pass,
+      keyType
+    )
+    const res = JSON.parse(res_str) as AddKeyResult
+    this._encryptedWallet = Buffer.from(res.newEncryptedState, 'base64')
     return res.newKey
   }
 
@@ -149,12 +169,14 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
         this.id,
         refArgs.encryptionPass,
         data.toString('base64'),
+        refArgs.keyRef,
         aad.toString('base64')
       ) : await this._utils.decrypt(
         this.encryptedWallet,
         this.id,
         refArgs.encryptionPass,
-        data.toString('base64')
+        data.toString('base64'),
+        refArgs.keyRef
       ), 'base64')
   }
 }

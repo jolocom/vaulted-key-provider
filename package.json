@@ -3,15 +3,23 @@
   "version": "0.1.0",
   "description": "",
   "main": "js/index.js",
-  "files": ["js"],
-  "dependencies": {},
+  "files": [
+    "js"
+  ],
+  "dependencies": {
+    "base64url": "^3.0.1"
+  },
   "devDependencies": {
+    "@jolocom/native-utils-node": "../rust-multi-target/node/jolocom-native-utils-node-0.3.2.tgz",
+    "@types/jest": "^24.0.23",
     "@types/node": "^14.0.25",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "tsc -p ."
   },
   "author": "",
