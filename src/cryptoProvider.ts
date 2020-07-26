@@ -1,4 +1,5 @@
 import { CryptoUtils, PublicKeyInfo, ICryptoProvider } from './types'
+import base64url from 'base64url' 
 
 export const getCryptoProvider = (
   u: CryptoUtils
@@ -9,8 +10,8 @@ export const getCryptoProvider = (
     sig: Buffer
   ): Promise<boolean> => await u.verify(
     JSON.stringify(pkInfo),
-    data.toString('base64'),
-    sig.toString('base64')
+    data.encode(toEncrypt),
+    sig.encode(toEncrypt),
   ),
 
   encrypt: async (
@@ -19,8 +20,8 @@ export const getCryptoProvider = (
     aad?: Buffer
   ): Promise<Buffer> => Buffer.from(await u.encrypt(
     JSON.stringify(pkInfo),
-    toEncrypt.toString('base64'),
-    aad ? aad.toString('base64') : undefined
+    base64url.encode(toEncrypt),
+    aad ? base64url.encode(aad) : undefined
   ), 'base64'),
     
   getRandom: async (

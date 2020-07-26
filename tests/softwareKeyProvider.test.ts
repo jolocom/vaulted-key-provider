@@ -16,7 +16,6 @@ describe("Software Key Provider", () => {
         p1
       )
       const enc_str = wallet.encryptedWallet
-      console.log(enc_str)
       expect(!!enc_str).toEqual(true)
 
       const keys0 = await wallet.getPubKeys(p1)
