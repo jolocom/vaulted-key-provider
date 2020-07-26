@@ -147,7 +147,7 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
     return Buffer.from(await this._utils.sign(
       this.encryptedWallet,
       this.id, encryptionPass,
-      data.toString('base64'),
+      base64url.encode(data),
       keyRef
     ), 'base64')
   }

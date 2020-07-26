@@ -34,10 +34,10 @@ export interface ICryptoProvider {
 };
 
 export interface PublicKeyInfo {
-  "@context": string[],
   id: string,
   type: KeyTypes,
   publicKeyHex: string
+  controller: string[]
 };
 
 export interface EncryptedWalletUtils {

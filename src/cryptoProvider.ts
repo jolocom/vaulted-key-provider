@@ -10,8 +10,8 @@ export const getCryptoProvider = (
     sig: Buffer
   ): Promise<boolean> => await u.verify(
     JSON.stringify(pkInfo),
-    data.encode(toEncrypt),
-    sig.encode(toEncrypt),
+    base64url.encode(data),
+    base64url.encode(sig),
   ),
 
   encrypt: async (
