@@ -8,7 +8,7 @@ const id = "my_wallet_id"
 const p1 = "password 1"
 const p2 = "password 2"
 
-describe("Software Key Provider", async () => {
+describe("Software Key Provider", () => {
   test("It should create a new empty wallet and add a key", async () => {
     const wallet = await SoftwareKeyProvider.newEmptyWallet(
       walletUtils,
@@ -55,6 +55,7 @@ describe("Software Key Provider", async () => {
       encryptionPass: p1,
       keyRef: newKey.id
     }, message)
+
     expect(sig.length).toEqual(64)
   })
   
@@ -70,8 +71,8 @@ describe("Software Key Provider", async () => {
     await wallet.changePass(p1, p2);
     
     expect(enc_str).not.toEqual(wallet.encryptedWallet)
-    expect(wallet.getPubKeys(p1)).rejects.toThrow()
+    await expect(wallet.getPubKeys(p1)).rejects.toThrow()
     
-    expect(wallet.getPubKeys(p2)).resolves.toEqual([])
+    await expect(wallet.getPubKeys(p2)).resolves.toEqual([])
   });  
 });
