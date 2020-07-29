@@ -22,6 +22,7 @@ export const enum KeyTypes {
 
 export interface IVaultedKeyProvider {
   getPubKey: (refArgs: IKeyRefArgs) => Promise<PublicKeyInfo>,
+  getPubKeyByController: (pass: string, controller: string) => Promise<PublicKeyInfo>,
   getPubKeys: (pass: string) => Promise<PublicKeyInfo[]>,
   sign: (refArgs: IKeyRefArgs, data: Buffer) => Promise<Buffer>,
   decrypt: (refArgs: IKeyRefArgs, data: Buffer) => Promise<Buffer>,

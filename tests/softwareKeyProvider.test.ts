@@ -36,6 +36,10 @@ describe("Software Key Provider", () => {
     expect(keys.length).toEqual(1)
     
     expect(keys[0]).toEqual(newKey)
+
+    expect(await wallet.getPubKey({keyRef: newKey.id, encryptionPass: p1})).resolves.toEqual(newKey)
+    expect(await wallet.getPubKeyByController(p1, `${id}#key-1`)).resolves.toEqual(newKey)
+    
   });
   
   test("It should sign", async () => {

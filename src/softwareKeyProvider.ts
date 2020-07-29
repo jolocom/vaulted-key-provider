@@ -140,6 +140,21 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
   }
 
   /**
+   * Returns public key from the wallet if present
+   * @param pass - Password for wallet decryption
+   * @param controller - controller to search for in keyset
+   * @example `await vault.getPubKeyByController(...) Promise<PublicKeyInfo> <...>`
+   */
+  public async getPubKeyByController(pass: string, controller: string): Promise<PublicKeyInfo> {
+    return JSON.parse(await this._utils.getKeyByController(
+      this.encryptedWallet,
+      this.id,
+      pass,
+      controller
+    )) as PublicKeyInfo
+  }
+
+  /**
    * Returns all public keys from the wallet
    * @param pass - Password for wallet decryption
    * @example `await vault.getPubKeys(pass) // Promise<PublicKeyInfo[]> <...>`
