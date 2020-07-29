@@ -5,6 +5,7 @@ import base64url from 'base64url'
 import { walletUtils } from '@jolocom/native-utils-node'
 
 const id = "my_wallet_id"
+const id2 = "my_other_wallet_id"
 const p1 = "password 1"
 const p2 = "password 2"
 
@@ -74,5 +75,27 @@ describe("Software Key Provider", () => {
     await expect(wallet.getPubKeys(p1)).rejects.toThrow()
     
     await expect(wallet.getPubKeys(p2)).resolves.toEqual([])
+  });  
+ 
+  test("It should change id", async () => {
+    const wallet = await SoftwareKeyProvider.newEmptyWallet(
+      walletUtils,
+      id,
+      p1
+    )
+    const enc_str = wallet.encryptedWallet
+    expect(!!enc_str).toEqual(true)
+
+    expect(wallet.id).toEqual(id)
+    expect(wallet.id).not.toEqual(id2)
+    
+    await wallet.changeId(p1, id2);
+    
+    expect(enc_str).not.toEqual(wallet.encryptedWallet)
+
+    expect(wallet.id).not.toEqual(id)
+    expect(wallet.id).toEqual(id2)
+
+    await expect(wallet.getPubKeys(p1)).resolves.toEqual([])
   });  
 });

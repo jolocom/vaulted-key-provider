@@ -53,6 +53,13 @@ export interface EncryptedWalletUtils {
     newPass: string
   ) => Promise<string>,
   
+  changeId: (
+    encryptedWallet: string,
+    id: string,
+    newId: string,
+    pass: string
+  ) => Promise<string>,
+
   newKey: (
     encryptedWallet: string,
     id: string,

@@ -10,7 +10,7 @@ import base64url from 'base64url'
 
 export class SoftwareKeyProvider implements IVaultedKeyProvider {
   private _encryptedWallet: Buffer
-  private readonly _id: string
+  private _id: string
   private readonly _utils: EncryptedWalletUtils
 
   /**
@@ -73,6 +73,25 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
     ), 'base64')
   }
 
+  /**
+   * Changes the id associated with the encrypted wallet
+   * @param pass - Password for wallet decryption
+   * @param newId - New password for wallet decryption
+   * @example `await vault.changeId(...) Promise<void> <...>`
+   */
+  public async changeId(
+    pass: string,
+    newId: string
+  ): Promise<void> {
+    this._encryptedWallet = Buffer.from(await this._utils.changeId(
+      this.encryptedWallet,
+      this.id,
+      newId,
+      pass,
+    ), 'base64')
+    this._id = newId
+  }
+  
   /**
    * Adds a key pair of the given type to the encrypted wallet
    * @param pass - Password for wallet decryption
