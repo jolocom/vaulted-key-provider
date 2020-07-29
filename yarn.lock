@@ -344,10 +344,10 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@jolocom/native-utils-node@^0.1":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@jolocom/native-utils-node/-/native-utils-node-0.1.0.tgz#b817e72401e513ef57e6c3be520ba00c36e89098"
-  integrity sha512-36zDv80zesVARGSGJJPF/rPX2IkJS4vRuyYYS+HOfHHWbYCfjMKiN3x7ispjI35IdBFfitrEfGce1xvfxiFHHQ==
+"@jolocom/native-utils-node@^0.2":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@jolocom/native-utils-node/-/native-utils-node-0.2.0.tgz#b51936930523135c1a8349484c54dfc5db899c1f"
+  integrity sha512-Bit/QB5Y8xOuNw53QqDK7rHjbno2PNdcv9Ld7vK+9siu81jfSjUVnP2K949HnpsMUdCwBQRofui8dXJXHPyLzQ==
 
 "@types/babel__core@^7.1.0":
   version "7.1.9"

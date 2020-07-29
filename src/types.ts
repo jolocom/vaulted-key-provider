@@ -68,6 +68,13 @@ export interface EncryptedWalletUtils {
     keyRef: string
   ) => Promise<string>,
 
+  getKeyByController: (
+    encryptedWallet: string,
+    id: string,
+    pass: string,
+    controller: string
+  ) => Promise<string>,
+  
   getKeys: (
     encryptedWallet: string,
     id: string,
@@ -78,16 +85,16 @@ export interface EncryptedWalletUtils {
     encryptedWallet: string,
     id: string,
     pass: string,
+    keyRef: string,
     data: string,
-    keyRef: string
   ) => Promise<string>,
 
   decrypt: (
     encryptedWallet: string,
     id: string,
     pass: string,
-    data: string,
     keyRef: string,
+    data: string,
     aad?: string
   ) => Promise<string>,
 };

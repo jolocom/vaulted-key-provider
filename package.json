@@ -10,7 +10,7 @@
     "base64url": "^3.0.1"
   },
   "devDependencies": {
-    "@jolocom/native-utils-node": "^0.1",
+    "@jolocom/native-utils-node": "^0.2",
     "@types/jest": "^24.0.23",
     "@types/node": "^14.0.25",
     "jest": "^24.9.0",
