@@ -118,6 +118,29 @@ var SoftwareKeyProvider = /** @class */ (function () {
         });
     };
     /**
+     * Changes the id associated with the encrypted wallet
+     * @param pass - Password for wallet decryption
+     * @param newId - New password for wallet decryption
+     * @example `await vault.changeId(...) Promise<void> <...>`
+     */
+    SoftwareKeyProvider.prototype.changeId = function (pass, newId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, _b, _c;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        _a = this;
+                        _c = (_b = Buffer).from;
+                        return [4 /*yield*/, this._utils.changeId(this.encryptedWallet, this.id, newId, pass)];
+                    case 1:
+                        _a._encryptedWallet = _c.apply(_b, [_d.sent(), 'base64']);
+                        this._id = newId;
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
      * Adds a key pair of the given type to the encrypted wallet
      * @param pass - Password for wallet decryption
      * @param keyType - type of key pair to be added
@@ -163,6 +186,25 @@ var SoftwareKeyProvider = /** @class */ (function () {
                         _c = (_b = JSON).parse;
                         return [4 /*yield*/, this._utils.getKey(this.encryptedWallet, this.id, encryptionPass, keyRef)];
                     case 1: return [2 /*return*/, _c.apply(_b, [_d.sent()])];
+                }
+            });
+        });
+    };
+    /**
+     * Returns public key from the wallet if present
+     * @param pass - Password for wallet decryption
+     * @param controller - controller to search for in keyset
+     * @example `await vault.getPubKeyByController(...) Promise<PublicKeyInfo> <...>`
+     */
+    SoftwareKeyProvider.prototype.getPubKeyByController = function (pass, controller) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _b = (_a = JSON).parse;
+                        return [4 /*yield*/, this._utils.getKeyByController(this.encryptedWallet, this.id, pass, controller)];
+                    case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
             });
         });

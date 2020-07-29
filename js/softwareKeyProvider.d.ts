@@ -2,7 +2,7 @@
 import { IKeyRefArgs, IVaultedKeyProvider, EncryptedWalletUtils, PublicKeyInfo, KeyTypes } from './types';
 export declare class SoftwareKeyProvider implements IVaultedKeyProvider {
     private _encryptedWallet;
-    private readonly _id;
+    private _id;
     private readonly _utils;
     /**
      * Initializes the vault with an already aes-256-gcm encrypted wallet
@@ -34,6 +34,13 @@ export declare class SoftwareKeyProvider implements IVaultedKeyProvider {
      */
     changePass(pass: string, newPass: string): Promise<void>;
     /**
+     * Changes the id associated with the encrypted wallet
+     * @param pass - Password for wallet decryption
+     * @param newId - New password for wallet decryption
+     * @example `await vault.changeId(...) Promise<void> <...>`
+     */
+    changeId(pass: string, newId: string): Promise<void>;
+    /**
      * Adds a key pair of the given type to the encrypted wallet
      * @param pass - Password for wallet decryption
      * @param keyType - type of key pair to be added
@@ -47,6 +54,13 @@ export declare class SoftwareKeyProvider implements IVaultedKeyProvider {
      * @example `await vault.getPubKey({keyRef: ..., encryptionPass: ...}) Promise<PublicKeyInfo> <...>`
      */
     getPubKey({ encryptionPass, keyRef }: IKeyRefArgs): Promise<PublicKeyInfo>;
+    /**
+     * Returns public key from the wallet if present
+     * @param pass - Password for wallet decryption
+     * @param controller - controller to search for in keyset
+     * @example `await vault.getPubKeyByController(...) Promise<PublicKeyInfo> <...>`
+     */
+    getPubKeyByController(pass: string, controller: string): Promise<PublicKeyInfo>;
     /**
      * Returns all public keys from the wallet
      * @param pass - Password for wallet decryption

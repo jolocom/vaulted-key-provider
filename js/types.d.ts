@@ -19,6 +19,7 @@ export declare const enum KeyTypes {
 }
 export interface IVaultedKeyProvider {
     getPubKey: (refArgs: IKeyRefArgs) => Promise<PublicKeyInfo>;
+    getPubKeyByController: (pass: string, controller: string) => Promise<PublicKeyInfo>;
     getPubKeys: (pass: string) => Promise<PublicKeyInfo[]>;
     sign: (refArgs: IKeyRefArgs, data: Buffer) => Promise<Buffer>;
     decrypt: (refArgs: IKeyRefArgs, data: Buffer) => Promise<Buffer>;
@@ -37,11 +38,13 @@ export interface PublicKeyInfo {
 export interface EncryptedWalletUtils {
     newWallet: (id: string, pass: string) => Promise<string>;
     changePass: (encryptedWallet: string, id: string, oldPass: string, newPass: string) => Promise<string>;
+    changeId: (encryptedWallet: string, id: string, newId: string, pass: string) => Promise<string>;
     newKey: (encryptedWallet: string, id: string, pass: string, keyType: string, controller?: string) => Promise<string>;
     getKey: (encryptedWallet: string, id: string, pass: string, keyRef: string) => Promise<string>;
+    getKeyByController: (encryptedWallet: string, id: string, pass: string, controller: string) => Promise<string>;
     getKeys: (encryptedWallet: string, id: string, pass: string) => Promise<string>;
-    sign: (encryptedWallet: string, id: string, pass: string, data: string, keyRef: string) => Promise<string>;
-    decrypt: (encryptedWallet: string, id: string, pass: string, data: string, keyRef: string, aad?: string) => Promise<string>;
+    sign: (encryptedWallet: string, id: string, pass: string, keyRef: string, data: string) => Promise<string>;
+    decrypt: (encryptedWallet: string, id: string, pass: string, keyRef: string, data: string, aad?: string) => Promise<string>;
 }
 export interface CryptoUtils {
     getRandom: (len: number) => Promise<string>;
