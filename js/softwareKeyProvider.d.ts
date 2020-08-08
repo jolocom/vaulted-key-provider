@@ -62,6 +62,13 @@ export declare class SoftwareKeyProvider implements IVaultedKeyProvider {
      */
     getPubKeyByController(pass: string, controller: string): Promise<PublicKeyInfo>;
     /**
+     * Sets the controller of a key pair
+     * @param refArgs - Password for wallet decryption and ref path
+     * @param controller - controller of the key
+     * @example `await vault.getPubKeyByController(...) Promise<PublicKeyInfo> <...>`
+     */
+    setKeyController({ encryptionPass, keyRef }: IKeyRefArgs, controller: string): Promise<void>;
+    /**
      * Returns all public keys from the wallet
      * @param pass - Password for wallet decryption
      * @example `await vault.getPubKeys(pass) // Promise<PublicKeyInfo[]> <...>`

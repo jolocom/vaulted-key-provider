@@ -69,6 +69,14 @@ export interface EncryptedWalletUtils {
     keyType: string,
     controller?: string
   ) => Promise<string>,
+
+  addContent: (
+    encryptedWallet: string,
+    id: string,
+    pass: string,
+    cref: string,
+    content: string
+  ) => Promise<string>,
   
   getKey: (
     encryptedWallet: string,

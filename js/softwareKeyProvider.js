@@ -210,6 +210,29 @@ var SoftwareKeyProvider = /** @class */ (function () {
         });
     };
     /**
+     * Sets the controller of a key pair
+     * @param refArgs - Password for wallet decryption and ref path
+     * @param controller - controller of the key
+     * @example `await vault.getPubKeyByController(...) Promise<PublicKeyInfo> <...>`
+     */
+    SoftwareKeyProvider.prototype.setKeyController = function (_a, controller) {
+        var encryptionPass = _a.encryptionPass, keyRef = _a.keyRef;
+        return __awaiter(this, void 0, void 0, function () {
+            var _b, _c, _d;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
+                    case 0:
+                        _b = this;
+                        _d = (_c = Buffer).from;
+                        return [4 /*yield*/, this._utils.setKeyController(this.encryptedWallet, this.id, encryptionPass, keyRef, controller)];
+                    case 1:
+                        _b._encryptedWallet = _d.apply(_c, [_e.sent(), 'base64']);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
      * Returns all public keys from the wallet
      * @param pass - Password for wallet decryption
      * @example `await vault.getPubKeys(pass) // Promise<PublicKeyInfo[]> <...>`
