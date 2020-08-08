@@ -49,6 +49,13 @@ export declare class SoftwareKeyProvider implements IVaultedKeyProvider {
      */
     newKeyPair(pass: string, keyType: KeyTypes, controller?: string): Promise<PublicKeyInfo>;
     /**
+     * Adds content to the wallet
+     * @param pass - Password for wallet decryption
+     * @param content - content to be added
+     * @example `await vault.addContent(pass, {...}) Promise<PublicKeyInfo> <void>`
+     */
+    addContent(pass: string, content: any): Promise<void>;
+    /**
      * Returns public key from the wallet if present
      * @param refArgs - Password for wallet decryption and ref path
      * @example `await vault.getPubKey({keyRef: ..., encryptionPass: ...}) Promise<PublicKeyInfo> <...>`

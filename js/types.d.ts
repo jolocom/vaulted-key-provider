@@ -41,7 +41,7 @@ export interface EncryptedWalletUtils {
     changePass: (encryptedWallet: string, id: string, oldPass: string, newPass: string) => Promise<string>;
     changeId: (encryptedWallet: string, id: string, newId: string, pass: string) => Promise<string>;
     newKey: (encryptedWallet: string, id: string, pass: string, keyType: string, controller?: string) => Promise<string>;
-    addContent: (encryptedWallet: string, id: string, pass: string, cref: string, content: string) => Promise<string>;
+    addContent: (encryptedWallet: string, id: string, pass: string, content: string) => Promise<string>;
     getKey: (encryptedWallet: string, id: string, pass: string, keyRef: string) => Promise<string>;
     getKeyByController: (encryptedWallet: string, id: string, pass: string, controller: string) => Promise<string>;
     setKeyController: (encryptedWallet: string, id: string, pass: string, keyRef: string, controller: string) => Promise<string>;
