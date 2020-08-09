@@ -9,7 +9,7 @@ export interface AddKeyResult {
   newKey: PublicKeyInfo
 }
 
-export const enum KeyTypes {
+export enum KeyTypes {
   jwsVerificationKey2020 = 'JwsVerificationKey2020',
   ecdsaSecp256k1VerificationKey2019 = 'EcdsaSecp256k1VerificationKey2019',
   ed25519VerificationKey2018 = 'Ed25519VerificationKey2018',
