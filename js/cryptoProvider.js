@@ -42,10 +42,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCryptoProvider = void 0;
 var base64url_1 = __importDefault(require("base64url"));
 exports.getCryptoProvider = function (u) { return ({
-    verify: function (pkInfo, data, sig) { return __awaiter(void 0, void 0, void 0, function () {
+    verify: function (key, type, data, sig) { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, u.verify(JSON.stringify(pkInfo), base64url_1.default.encode(data), base64url_1.default.encode(sig))];
+                case 0: return [4 /*yield*/, u.verify(base64url_1.default.encode(key), type, base64url_1.default.encode(data), base64url_1.default.encode(sig))];
                 case 1: return [2 /*return*/, _a.sent()];
             }
         });

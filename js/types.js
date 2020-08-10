@@ -1,6 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.KeyTypes = void 0;
 ;
+var KeyTypes;
+(function (KeyTypes) {
+    KeyTypes["jwsVerificationKey2020"] = "JwsVerificationKey2020";
+    KeyTypes["ecdsaSecp256k1VerificationKey2019"] = "EcdsaSecp256k1VerificationKey2019";
+    KeyTypes["ed25519VerificationKey2018"] = "Ed25519VerificationKey2018";
+    KeyTypes["gpgVerificationKey2020"] = "GpgVerificationKey2020";
+    KeyTypes["rsaVerificationKey2018"] = "RsaVerificationKey2018";
+    KeyTypes["x25519KeyAgreementKey2019"] = "X25519KeyAgreementKey2019";
+    KeyTypes["schnorrSecp256k1VerificationKey2019"] = "SchnorrSecp256k1VerificationKey2019";
+    KeyTypes["ecdsaSecp256k1RecoveryMethod2020"] = "EcdsaSecp256k1RecoveryMethod2020";
+})(KeyTypes = exports.KeyTypes || (exports.KeyTypes = {}));
 ;
 ;
 ;

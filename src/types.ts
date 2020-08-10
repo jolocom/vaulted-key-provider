@@ -30,7 +30,7 @@ export interface IVaultedKeyProvider {
 };
 
 export interface ICryptoProvider {
-  verify: (pkInfo: PublicKeyInfo, data: Buffer, sig: Buffer) => Promise<boolean>,
+  verify: (key: Buffer, type: KeyTypes, data: Buffer, sig: Buffer) => Promise<boolean>,
   encrypt: (pkInfo: PublicKeyInfo, toEncrypt: Buffer, aad?: Buffer) => Promise<Buffer>,
   getRandom: (nr: number) => Promise<Buffer>,
 };
@@ -129,7 +129,8 @@ export interface CryptoUtils {
   ) => Promise<string>,
 
   verify: (
-    pkInfo: string,
+    key: string,
+    type: string,
     data: string,
     sig: string
   ) => Promise<boolean>,

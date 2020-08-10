@@ -7,7 +7,7 @@ export interface AddKeyResult {
     newEncryptedState: string;
     newKey: PublicKeyInfo;
 }
-export declare const enum KeyTypes {
+export declare enum KeyTypes {
     jwsVerificationKey2020 = "JwsVerificationKey2020",
     ecdsaSecp256k1VerificationKey2019 = "EcdsaSecp256k1VerificationKey2019",
     ed25519VerificationKey2018 = "Ed25519VerificationKey2018",
@@ -26,7 +26,7 @@ export interface IVaultedKeyProvider {
     newKeyPair: (pass: string, keyType: KeyTypes, controller?: string) => Promise<PublicKeyInfo>;
 }
 export interface ICryptoProvider {
-    verify: (pkInfo: PublicKeyInfo, data: Buffer, sig: Buffer) => Promise<boolean>;
+    verify: (key: Buffer, type: KeyTypes, data: Buffer, sig: Buffer) => Promise<boolean>;
     encrypt: (pkInfo: PublicKeyInfo, toEncrypt: Buffer, aad?: Buffer) => Promise<Buffer>;
     getRandom: (nr: number) => Promise<Buffer>;
 }
@@ -51,6 +51,6 @@ export interface EncryptedWalletUtils {
 }
 export interface CryptoUtils {
     getRandom: (len: number) => Promise<string>;
-    verify: (pkInfo: string, data: string, sig: string) => Promise<boolean>;
+    verify: (key: string, type: string, data: string, sig: string) => Promise<boolean>;
     encrypt: (pkInfo: string, toEncrypt: string, aad?: string) => Promise<string>;
 }

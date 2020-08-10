@@ -1,15 +1,17 @@
-import { CryptoUtils, PublicKeyInfo, ICryptoProvider } from './types'
+import { KeyTypes, CryptoUtils, PublicKeyInfo, ICryptoProvider } from './types'
 import base64url from 'base64url' 
 
 export const getCryptoProvider = (
   u: CryptoUtils
 ): ICryptoProvider => ({
   verify: async (
-    pkInfo: PublicKeyInfo,
+    key: Buffer,
+    type: KeyTypes,
     data: Buffer,
     sig: Buffer
   ): Promise<boolean> => await u.verify(
-    JSON.stringify(pkInfo),
+    base64url.encode(key),
+    type,
     base64url.encode(data),
     base64url.encode(sig),
   ),
