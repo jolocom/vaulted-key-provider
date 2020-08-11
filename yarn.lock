@@ -344,10 +344,10 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@jolocom/native-utils-node@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@jolocom/native-utils-node/-/native-utils-node-0.4.0.tgz#140c14d1e0f3d1568ee059ea4ce7f665e28c4db9"
-  integrity sha512-QJZuNg5wDmtJ+UIOh2z+ehBfFq872bCwwxUke5ykic8e28VMqicPn4XlQ9BoJhj1tZAh8eTZEbCbRKtZTLZ+QQ==
+"@jolocom/native-utils-node@^0.5.6":
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/@jolocom/native-utils-node/-/native-utils-node-0.5.6.tgz#b85ad40846c3d08ee6a0dd4e953994dbae2b307b"
+  integrity sha512-/QTU/eFqcWI84iBrTskzMw2dFxkOKc+AUufODFtaLdpZ+xXwfdjwr4BD6erJUo571NXP6ymTjfV0bJI/sQXAGw==
 
 "@types/babel__core@^7.1.0":
   version "7.1.9"
@@ -618,11 +618,6 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
-
-base64url@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/base64url/-/base64url-3.0.1.tgz#6399d572e2bc3f90a9a8b22d5dbb0a32d33f788d"
-  integrity sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==
 
 base@^0.11.1:
   version "0.11.2"
@@ -2717,6 +2712,11 @@ ret@~0.1.10:
   version "0.1.15"
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
   integrity sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==
+
+rfc4648@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/rfc4648/-/rfc4648-1.4.0.tgz#c75b2856ad2e2d588b6ddb985d556f1f7f2a2abd"
+  integrity sha512-3qIzGhHlMHA6PoT6+cdPKZ+ZqtxkIvg8DZGKA5z6PQ33/uuhoJ+Ws/D/J9rXW6gXodgH8QYlz2UCl+sdUDmNIg==
 
 rimraf@^2.5.4, rimraf@^2.6.3:
   version "2.7.1"

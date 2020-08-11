@@ -1,5 +1,4 @@
 import { SoftwareKeyProvider, KeyTypes } from "../src";
-import base64url from 'base64url' 
 
 // Testing against a specific implementation
 import { walletUtils, getIcp } from '@jolocom/native-utils-node'

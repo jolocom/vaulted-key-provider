@@ -1,5 +1,5 @@
 import { KeyTypes, CryptoUtils, PublicKeyInfo, ICryptoProvider } from './types'
-import base64url from 'base64url' 
+import { base64url } from 'rfc4648'
 
 export const getCryptoProvider = (
   u: CryptoUtils
@@ -10,10 +10,10 @@ export const getCryptoProvider = (
     data: Buffer,
     sig: Buffer
   ): Promise<boolean> => await u.verify(
-    base64url.encode(key),
+    base64url.stringify(key),
     type,
-    base64url.encode(data),
-    base64url.encode(sig),
+    base64url.stringify(data),
+    base64url.stringify(sig),
   ),
 
   encrypt: async (
@@ -22,8 +22,8 @@ export const getCryptoProvider = (
     aad?: Buffer
   ): Promise<Buffer> => Buffer.from(await u.encrypt(
     JSON.stringify(pkInfo),
-    base64url.encode(toEncrypt),
-    aad ? base64url.encode(aad) : undefined
+    base64url.stringify(toEncrypt),
+    aad ? base64url.stringify(aad) : undefined
   ), 'base64'),
     
   getRandom: async (

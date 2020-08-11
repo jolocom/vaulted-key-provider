@@ -6,7 +6,7 @@ import {
   KeyTypes,
   AddKeyResult
 } from './types'
-import base64url from 'base64url' 
+import { base64url } from 'rfc4648'
 
 export class SoftwareKeyProvider implements IVaultedKeyProvider {
   private _encryptedWallet: Buffer
@@ -41,11 +41,11 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
   }
 
   /**
-   * Get the encrypted wallet base64 encoded
+   * Get the encrypted wallet base64 base64url.stringifyd
    */
   public get encryptedWallet(): string {
     // NOTE base64_URL_ encoding is used here, so  this uses an external lib for encoding 
-    return base64url.encode(this._encryptedWallet)
+    return base64url.stringify(this._encryptedWallet)
   }
 
   /**
@@ -218,7 +218,7 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
     return Buffer.from(await this._utils.sign(
       this.encryptedWallet,
       this.id, encryptionPass,
-      base64url.encode(data),
+      base64url.stringify(data),
       keyRef
     ), 'base64')
   }
