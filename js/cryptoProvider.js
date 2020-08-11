@@ -35,17 +35,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCryptoProvider = void 0;
-var base64url_1 = __importDefault(require("base64url"));
+var rfc4648_1 = require("rfc4648");
 exports.getCryptoProvider = function (u) { return ({
     verify: function (key, type, data, sig) { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, u.verify(base64url_1.default.encode(key), type, base64url_1.default.encode(data), base64url_1.default.encode(sig))];
+                case 0: return [4 /*yield*/, u.verify(rfc4648_1.base64url.stringify(key), type, rfc4648_1.base64url.stringify(data), rfc4648_1.base64url.stringify(sig))];
                 case 1: return [2 /*return*/, _a.sent()];
             }
         });
@@ -56,7 +53,7 @@ exports.getCryptoProvider = function (u) { return ({
             switch (_c.label) {
                 case 0:
                     _b = (_a = Buffer).from;
-                    return [4 /*yield*/, u.encrypt(JSON.stringify(pkInfo), base64url_1.default.encode(toEncrypt), aad ? base64url_1.default.encode(aad) : undefined)];
+                    return [4 /*yield*/, u.encrypt(JSON.stringify(pkInfo), rfc4648_1.base64url.stringify(toEncrypt), aad ? rfc4648_1.base64url.stringify(aad) : undefined)];
                 case 1: return [2 /*return*/, _b.apply(_a, [_c.sent(), 'base64'])];
             }
         });

@@ -19,7 +19,7 @@ export declare class SoftwareKeyProvider implements IVaultedKeyProvider {
      */
     static newEmptyWallet(utils: EncryptedWalletUtils, id: string, pass: string): Promise<SoftwareKeyProvider>;
     /**
-     * Get the encrypted wallet base64 encoded
+     * Get the encrypted wallet base64 base64url.stringifyd
      */
     get encryptedWallet(): string;
     /**

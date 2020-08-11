@@ -46,12 +46,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SoftwareKeyProvider = void 0;
-var base64url_1 = __importDefault(require("base64url"));
+var rfc4648_1 = require("rfc4648");
 var SoftwareKeyProvider = /** @class */ (function () {
     /**
      * Initializes the vault with an already aes-256-gcm encrypted wallet
@@ -87,11 +84,11 @@ var SoftwareKeyProvider = /** @class */ (function () {
     };
     Object.defineProperty(SoftwareKeyProvider.prototype, "encryptedWallet", {
         /**
-         * Get the encrypted wallet base64 encoded
+         * Get the encrypted wallet base64 base64url.stringifyd
          */
         get: function () {
             // NOTE base64_URL_ encoding is used here, so  this uses an external lib for encoding 
-            return base64url_1.default.encode(this._encryptedWallet);
+            return rfc4648_1.base64url.stringify(this._encryptedWallet);
         },
         enumerable: false,
         configurable: true
@@ -297,7 +294,7 @@ var SoftwareKeyProvider = /** @class */ (function () {
                     case 0:
                         encryptionPass = refArgs.encryptionPass, keyRef = refArgs.keyRef;
                         _b = (_a = Buffer).from;
-                        return [4 /*yield*/, this._utils.sign(this.encryptedWallet, this.id, encryptionPass, base64url_1.default.encode(data), keyRef)];
+                        return [4 /*yield*/, this._utils.sign(this.encryptedWallet, this.id, encryptionPass, rfc4648_1.base64url.stringify(data), keyRef)];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent(), 'base64'])];
                 }
             });

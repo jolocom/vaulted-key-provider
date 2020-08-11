@@ -67,7 +67,7 @@ describe("Software Key Provider", () => {
     
     const sig = await wallet.sign({
       encryptionPass: p1,
-      keyRef: newKey.id
+      keyRef: newKey.controller[0]
     }, message)
 
     expect(sig.length).toEqual(64)
