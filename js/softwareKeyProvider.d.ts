@@ -52,7 +52,7 @@ export declare class SoftwareKeyProvider implements IVaultedKeyProvider {
      * Adds content to the wallet
      * @param pass - Password for wallet decryption
      * @param content - content to be added
-     * @example `await vault.addContent(pass, {...}) Promise<PublicKeyInfo> <void>`
+     * @example `await vault.addContent(pass, {...}) Promise<void>`
      */
     addContent(pass: string, content: any): Promise<void>;
     /**

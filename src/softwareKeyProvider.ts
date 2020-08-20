@@ -126,13 +126,13 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
    * Adds content to the wallet
    * @param pass - Password for wallet decryption
    * @param content - content to be added
-   * @example `await vault.addContent(pass, {...}) Promise<PublicKeyInfo> <void>`
+   * @example `await vault.addContent(pass, {...}) Promise<void>`
    */
   public async addContent(
     pass: string,
     content: any
   ): Promise<void> {
-    this._encryptedWallet = Buffer.from(await this._utils.newKey(
+    this._encryptedWallet = Buffer.from(await this._utils.addContent(
         this.encryptedWallet,
         this.id,
         pass,

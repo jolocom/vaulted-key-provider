@@ -183,7 +183,7 @@ var SoftwareKeyProvider = /** @class */ (function () {
      * Adds content to the wallet
      * @param pass - Password for wallet decryption
      * @param content - content to be added
-     * @example `await vault.addContent(pass, {...}) Promise<PublicKeyInfo> <void>`
+     * @example `await vault.addContent(pass, {...}) Promise<void>`
      */
     SoftwareKeyProvider.prototype.addContent = function (pass, content) {
         return __awaiter(this, void 0, void 0, function () {
@@ -193,7 +193,7 @@ var SoftwareKeyProvider = /** @class */ (function () {
                     case 0:
                         _a = this;
                         _c = (_b = Buffer).from;
-                        return [4 /*yield*/, this._utils.newKey(this.encryptedWallet, this.id, pass, JSON.stringify(__assign({ context: [], id: "" }, content)))];
+                        return [4 /*yield*/, this._utils.addContent(this.encryptedWallet, this.id, pass, JSON.stringify(__assign({ context: [], id: "" }, content)))];
                     case 1:
                         _a._encryptedWallet = _c.apply(_b, [_d.sent(), 'base64']);
                         return [2 /*return*/];

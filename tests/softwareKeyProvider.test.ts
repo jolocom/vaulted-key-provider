@@ -40,6 +40,20 @@ describe("Software Key Provider", () => {
     expect(wallet.getPubKeyByController(p1, `${id}#key-1`)).resolves.toEqual(newKey)
     
   });
+  
+  test("It should create a new empty wallet and add a content item", async () => {
+    const wallet = await SoftwareKeyProvider.newEmptyWallet(
+      walletUtils,
+      id,
+      p1
+    )
+    
+    const newContent = await wallet.addContent(
+      p1,
+      {type: "TestEntropy", value: "0000"}
+    )
+    console.log(newContent)
+  });
 
   test("It should incept a keri ID", async () => {
     const wallet = await SoftwareKeyProvider.newEmptyWallet(
@@ -48,7 +62,7 @@ describe("Software Key Provider", () => {
       p1
     )
 
-    await getIcp(wallet.encryptedWallet, id, p1)
+    await getIcp({encryptedWallet: wallet.encryptedWallet, id: id, pass: p1})
   })
   
   test("It should sign", async () => {
