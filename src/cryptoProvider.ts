@@ -17,11 +17,13 @@ export const getCryptoProvider = (
   ),
 
   encrypt: async (
-    pkInfo: PublicKeyInfo,
+    key: Buffer,
+    type: KeyTypes,
     toEncrypt: Buffer,
     aad?: Buffer
   ): Promise<Buffer> => Buffer.from(await u.encrypt(
-    JSON.stringify(pkInfo),
+    base64url.stringify(key),
+    type,
     base64url.stringify(toEncrypt),
     aad ? base64url.stringify(aad) : undefined
   ), 'base64'),

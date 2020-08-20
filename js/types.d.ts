@@ -27,7 +27,7 @@ export interface IVaultedKeyProvider {
 }
 export interface ICryptoProvider {
     verify: (key: Buffer, type: KeyTypes, data: Buffer, sig: Buffer) => Promise<boolean>;
-    encrypt: (pkInfo: PublicKeyInfo, toEncrypt: Buffer, aad?: Buffer) => Promise<Buffer>;
+    encrypt: (key: Buffer, type: KeyTypes, toEncrypt: Buffer, aad?: Buffer) => Promise<Buffer>;
     getRandom: (nr: number) => Promise<Buffer>;
 }
 export interface PublicKeyInfo {
@@ -52,5 +52,5 @@ export interface EncryptedWalletUtils {
 export interface CryptoUtils {
     getRandom: (len: number) => Promise<string>;
     verify: (key: string, type: string, data: string, sig: string) => Promise<boolean>;
-    encrypt: (pkInfo: string, toEncrypt: string, aad?: string) => Promise<string>;
+    encrypt: (key: string, type: string, toEncrypt: string, aad?: string) => Promise<string>;
 }
