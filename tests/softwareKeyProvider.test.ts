@@ -31,6 +31,7 @@ describe("Software Key Provider", () => {
     expect(enc_str).not.toEqual(wallet.encryptedWallet)
     
     const keys = await wallet.getPubKeys(p1)
+    console.log(keys)
     
     expect(keys.length).toEqual(1)
     
@@ -47,12 +48,15 @@ describe("Software Key Provider", () => {
       id,
       p1
     )
+    console.log(wallet.encryptedWallet)
     
     const newContent = await wallet.addContent(
       p1,
-      {type: "TestEntropy", value: "0000"}
+      {type: ["TestEntropy"], value: "0000"}
     )
-    console.log(newContent)
+    console.log(wallet.encryptedWallet)
+    
+    await wallet.getPubKeys(p1)
   });
 
   test("It should incept a keri ID", async () => {

@@ -133,10 +133,10 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
     content: any
   ): Promise<void> {
     this._encryptedWallet = Buffer.from(await this._utils.addContent(
-        this.encryptedWallet,
-        this.id,
-        pass,
-      JSON.stringify({context: [], id: "", ...content})
+      this.encryptedWallet,
+      this.id,
+      pass,
+      JSON.stringify({"@context": [], id: "", ...content})
     ), 'base64')
   }
 
