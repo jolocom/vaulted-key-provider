@@ -1,16 +1,16 @@
 {
   "name": "@jolocom/vaulted-key-provider",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "",
   "main": "js/index.js",
   "files": [
     "js"
   ],
   "dependencies": {
+    "@jolocom/native-core-node-linux-x64": "^0.7.4",
     "rfc4648": "^1.4.0"
   },
   "devDependencies": {
-    "@jolocom/native-utils-node": "^0.5.6",
     "@types/jest": "^24.0.23",
     "@types/node": "^14.0.25",
     "jest": "^24.9.0",

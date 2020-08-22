@@ -1,7 +1,7 @@
 import { SoftwareKeyProvider, KeyTypes } from "../src";
 
 // Testing against a specific implementation
-import { walletUtils, getIcp } from '@jolocom/native-utils-node'
+import { walletUtils, getIcp } from '@jolocom/native-core-node-linux-x64'
 
 const id = "my_wallet_id"
 const id2 = "my_other_wallet_id"
@@ -31,7 +31,6 @@ describe("Software Key Provider", () => {
     expect(enc_str).not.toEqual(wallet.encryptedWallet)
     
     const keys = await wallet.getPubKeys(p1)
-    console.log(keys)
     
     expect(keys.length).toEqual(1)
     
@@ -48,13 +47,11 @@ describe("Software Key Provider", () => {
       id,
       p1
     )
-    console.log(wallet.encryptedWallet)
     
-    const newContent = await wallet.addContent(
+    await wallet.addContent(
       p1,
       {type: ["TestEntropy"], value: "0000"}
     )
-    console.log(wallet.encryptedWallet)
     
     await wallet.getPubKeys(p1)
   });
