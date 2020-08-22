@@ -41,7 +41,7 @@ describe("Software Key Provider", () => {
     
   });
   
-  test("It should create a new empty wallet and add a content item", async () => {
+  test("It should create a new empty wallet and add the supported content entries", async () => {
     const wallet = await SoftwareKeyProvider.newEmptyWallet(
       walletUtils,
       id,
@@ -50,10 +50,34 @@ describe("Software Key Provider", () => {
     
     await wallet.addContent(
       p1,
-      {type: ["TestEntropy"], value: "0000"}
+      {type: ["TestEntropy"], value: "Gf6rvA=="}
     )
-    
-    await wallet.getPubKeys(p1)
+
+    const mockKeyEntry = {
+        controller: [`${wallet.id}#test-key`],
+        type: KeyTypes.ecdsaSecp256k1VerificationKey2019,
+        publicKeyHex: "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff01"
+    }
+
+    await wallet.addContent(
+      p1,
+      mockKeyEntry
+    )
+
+    await wallet.addContent(
+      p1,
+      { ...mockKeyEntry,
+        private_key: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    )
+
+    const keys = await wallet.getPubKeys(p1)
+    expect(keys.length).toEqual(2)
+    expect(keys[0]).toMatchObject(mockKeyEntry)
+    expect(keys[1]).toMatchObject({
+      mockKeyEntry,
+      private_key: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+    })
   });
 
   test("It should incept a keri ID", async () => {

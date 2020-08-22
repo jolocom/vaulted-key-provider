@@ -124,6 +124,9 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
 
   /**
    * Adds content to the wallet
+   * NOTE - Hex strings passed in should not be 0x prefixed, otherwise
+   * an error occurs.
+   * TODO Fix / handle this
    * @param pass - Password for wallet decryption
    * @param content - content to be added
    * @example `await vault.addContent(pass, {...}) Promise<void>`
