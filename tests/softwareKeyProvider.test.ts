@@ -15,31 +15,53 @@ describe("Software Key Provider", () => {
       id,
       p1
     )
+
     const enc_str = wallet.encryptedWallet
     expect(!!enc_str).toEqual(true)
     
     const keys0 = await wallet.getPubKeys(p1)
     
+    // Should correctly add key with preset controller
     expect(keys0.length).toEqual(0)
-    
     const newKey = await wallet.newKeyPair(
       p1,
       KeyTypes.ecdsaSecp256k1VerificationKey2019,
       `${id}#key-1`
     )
     
+    // Should correctly add key without controller
+    const secondNewKey = await wallet.newKeyPair(
+      p1,
+      KeyTypes.ecdsaSecp256k1VerificationKey2019,
+    )
+
+
     expect(enc_str).not.toEqual(wallet.encryptedWallet)
     
     const keys = await wallet.getPubKeys(p1)
     
-    expect(keys.length).toEqual(1)
-    
-    expect(keys[0]).toEqual(newKey)
+    expect(keys.length).toEqual(2)
+    await expect(wallet.getPubKey({keyRef: newKey.id, encryptionPass: p1})).resolves.toEqual(newKey)
+    await expect(wallet.getPubKey({keyRef: secondNewKey.id, encryptionPass: p1})).resolves.toMatchObject(secondNewKey)
 
-    expect(wallet.getPubKey({keyRef: newKey.id, encryptionPass: p1})).resolves.toEqual(newKey)
-    expect(wallet.getPubKeyByController(p1, `${id}#key-1`)).resolves.toEqual(newKey)
-    expect(wallet.getPubKeyByController(p1, "not a real controller")).rejects.toBeTruthy()    
+    await expect(wallet.getPubKeyByController(p1, `${id}#key-1`)).resolves.toEqual(newKey)
+    await expect(wallet.getPubKeyByController(p1, secondNewKey.controller[0])).resolves.toMatchObject(secondNewKey)
+    await expect(wallet.getPubKeyByController(p1, "not a real controller")).rejects.toBeTruthy()
   });
+
+  test("It should correctly change the vault ID", async () => {
+    const initialId = 'oldId'
+    const changedId = 'newId'
+    const wallet = await SoftwareKeyProvider.newEmptyWallet(
+      walletUtils,
+      initialId,
+      p1
+    )
+
+    expect(wallet.id).toBe(initialId)
+    await wallet.changeId(p1, changedId)
+    expect(wallet.id).toBe(changedId)
+  })
   
   test("It should create a new empty wallet and add the supported content entries", async () => {
     const wallet = await SoftwareKeyProvider.newEmptyWallet(
@@ -70,6 +92,45 @@ describe("Software Key Provider", () => {
     expect(keys.length).toEqual(1)
     expect(keys[0]).toMatchObject(mockKeyEntry)
   });
+
+  test("It should correctly change the controller for a key", async () => {
+    const intialController = `${id}#key-1`
+    const newController = `${id}signing`
+
+    const wallet = await SoftwareKeyProvider.newEmptyWallet(
+      walletUtils,
+      id,
+      p1
+    )
+
+    await wallet.newKeyPair(
+      p1,
+      KeyTypes.ecdsaSecp256k1VerificationKey2019,
+      intialController
+    )
+
+    const key = await wallet.getPubKeyByController(
+      p1,
+      intialController
+    )
+
+    expect(key).toBeDefined()
+
+    await wallet.setKeyController({
+      encryptionPass: p1,
+      keyRef: key.id
+    }, newController)
+
+    await expect(wallet.getPubKeyByController(
+      p1,
+      intialController
+    )).rejects.toBeTruthy()
+
+    expect(await wallet.getPubKeyByController(
+      p1,
+      newController
+    )).toBeDefined
+  })
 
   test("It should incept a keri ID", async () => {
     const wallet = await SoftwareKeyProvider.newEmptyWallet(

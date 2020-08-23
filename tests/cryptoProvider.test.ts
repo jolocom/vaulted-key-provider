@@ -8,6 +8,7 @@ describe("Crypto Provider", () => {
         const crp = getCryptoProvider(cryptoUtils)
         
         const kt = KeyTypes.ecdsaSecp256k1VerificationKey2019
+
         const key = Buffer.from('A27--3mGAcf9wsYk1qvasW2pCydHUMLrzXKf2Y8ebAAU', 'base64')
         const message = Buffer.from("hello there")
 
@@ -19,7 +20,11 @@ describe("Crypto Provider", () => {
     });
 
     test("Generate a random buffer", async () => {
-      
+      const crp = getCryptoProvider(cryptoUtils)
+
+      expect(await crp.getRandom(0)).toHaveLength(0)
+      expect(await crp.getRandom(5)).toHaveLength(5)
+      await expect(crp.getRandom(-5)).rejects.toBeInstanceOf(Error)
     });
 
     test("Encrypt", async () => {

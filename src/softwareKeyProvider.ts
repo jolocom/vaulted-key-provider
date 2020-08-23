@@ -99,26 +99,23 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
    * @param controller - optional controller arguement to add to key info
    * @example `await vault.newKeyPair(pass, keyType, controller?) Promise<PublicKeyInfo> <...>`
    */
+
   public async newKeyPair(
     pass: string,
     keyType: KeyTypes,
     controller?: string
   ): Promise<PublicKeyInfo> {
-    const res_str = controller
-    ? await this._utils.newKey(
+    const res_str = await this._utils.newKey(
         this.encryptedWallet,
         this.id,
         pass,
         keyType,
         controller
-    ) : await this._utils.newKey(
-      this.encryptedWallet,
-      this.id,
-      pass,
-      keyType
     )
+
     const res = JSON.parse(res_str) as AddKeyResult
     this._encryptedWallet = Buffer.from(res.newEncryptedState, 'base64')
+
     return res.newKey
   }
 
@@ -229,6 +226,7 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
 
   /**
    * Decrypts given data using the ref args and optional additional authenticated data
+   * @NOTE The "aad" argument is currently NOT USED by the rust cryptoUtils implementation
    * @param refArgs - Password for wallet decryption and ref path
    * @param data - The data to decrypt. format depends on referenced key type
    * @example `await vault.decrypt({keyRef: ..., decryptionPass: ...}, Buffer <...>, Buffer <...>) // Promise<Buffer> <...>`
@@ -236,22 +234,14 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
   public async decrypt(
     refArgs: IKeyRefArgs,
     data: Buffer,
-    aad?: Buffer
   ): Promise<Buffer> {
-    return Buffer.from(aad
-      ? await this._utils.decrypt(
-        this.encryptedWallet,
-        this.id,
-        refArgs.encryptionPass,
-        base64url.stringify(data),
-        refArgs.keyRef,
-        base64url.stringify(aad)
-      ) : await this._utils.decrypt(
-        this.encryptedWallet,
-        this.id,
-        refArgs.encryptionPass,
-        base64url.stringify(data),
-        refArgs.keyRef
-      ), 'base64')
+    return Buffer.from(await this._utils.decrypt(
+      this.encryptedWallet,
+      this.id,
+      refArgs.encryptionPass,
+      refArgs.keyRef,
+      base64url.stringify(data),
+      ""
+    ), 'base64')
   }
 }
