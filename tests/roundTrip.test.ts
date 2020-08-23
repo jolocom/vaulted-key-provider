@@ -57,14 +57,13 @@ describe("Round Trips", () => {
     const encrypted = await crp.encrypt(
       encryptTo,
       encryptionKey.type,
-      message,
-      Buffer.from('afaf', 'hex')
+      message
     )
 
     const decryptyptedMessage = await wallet.decrypt({
       encryptionPass: p1,
       keyRef: encryptionKey.controller[0]
-    }, encrypted, Buffer.from('afaf', 'hex'))
+    }, encrypted)
 
 
     expect(decryptyptedMessage).toEqual(message)
