@@ -1,7 +1,7 @@
 import { getCryptoProvider, PublicKeyInfo, KeyTypes } from "../src";
 
 // Testing against a specific implementation
-import { cryptoUtils } from '@jolocom/native-core-node-linux-x64'
+import { cryptoUtils } from '@jolocom/native-core-node'
 
 describe("Crypto Provider", () => {
     test("Verify a signature", async () => {
