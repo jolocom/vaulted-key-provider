@@ -220,9 +220,10 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
     const { encryptionPass, keyRef } = refArgs
     return Buffer.from(await this._utils.sign(
       this.encryptedWallet,
-      this.id, encryptionPass,
-      base64url.stringify(data),
-      keyRef
+      this.id,
+      encryptionPass,
+      keyRef,
+      base64url.stringify(data)
     ), 'base64')
   }
 
@@ -242,14 +243,14 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
         this.encryptedWallet,
         this.id,
         refArgs.encryptionPass,
-        data.toString('base64'),
+        base64url.stringify(data),
         refArgs.keyRef,
-        aad.toString('base64')
+        base64url.stringify(aad)
       ) : await this._utils.decrypt(
         this.encryptedWallet,
         this.id,
         refArgs.encryptionPass,
-        data.toString('base64'),
+        base64url.stringify(data),
         refArgs.keyRef
       ), 'base64')
   }
