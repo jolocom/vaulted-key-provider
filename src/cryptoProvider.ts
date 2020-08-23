@@ -20,18 +20,24 @@ export const getCryptoProvider = (
     key: Buffer,
     type: KeyTypes,
     toEncrypt: Buffer,
-    aad?: Buffer
-  ): Promise<Buffer> => Buffer.from(await u.encrypt(
-    base64url.stringify(key),
-    type,
-    base64url.stringify(toEncrypt),
-    aad ? base64url.stringify(aad) : undefined
-  ), 'base64'),
+  ): Promise<Buffer> => {
+    const res = await u.encrypt(
+      base64url.stringify(key),
+      type,
+      base64url.stringify(toEncrypt),
+      ''
+    )
+
+    return Buffer.from(Buffer.from(res, 'base64'))
+  },
     
   getRandom: async (
     nr: number
-  ): Promise<Buffer> => Buffer.from(
-    await u.getRandom(nr),
-    'base64'
-  ),
+  ): Promise<Buffer> => {
+    if (nr < 0) {
+      throw new Error('Only positive values for N allowed')
+    }
+
+    return Buffer.from(await u.getRandom(nr), 'base64')
+  }
 })

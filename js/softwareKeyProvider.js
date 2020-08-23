@@ -157,21 +157,12 @@ var SoftwareKeyProvider = /** @class */ (function () {
      */
     SoftwareKeyProvider.prototype.newKeyPair = function (pass, keyType, controller) {
         return __awaiter(this, void 0, void 0, function () {
-            var res_str, _a, res;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        if (!controller) return [3 /*break*/, 2];
-                        return [4 /*yield*/, this._utils.newKey(this.encryptedWallet, this.id, pass, keyType, controller)];
+            var res_str, res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this._utils.newKey(this.encryptedWallet, this.id, pass, keyType, controller)];
                     case 1:
-                        _a = _b.sent();
-                        return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, this._utils.newKey(this.encryptedWallet, this.id, pass, keyType)];
-                    case 3:
-                        _a = _b.sent();
-                        _b.label = 4;
-                    case 4:
-                        res_str = _a;
+                        res_str = _a.sent();
                         res = JSON.parse(res_str);
                         this._encryptedWallet = Buffer.from(res.newEncryptedState, 'base64');
                         return [2 /*return*/, res.newKey];
@@ -296,7 +287,6 @@ var SoftwareKeyProvider = /** @class */ (function () {
                 switch (_c.label) {
                     case 0:
                         encryptionPass = refArgs.encryptionPass, keyRef = refArgs.keyRef;
-                        console.log(rfc4648_1.base64url.stringify(data));
                         _b = (_a = Buffer).from;
                         return [4 /*yield*/, this._utils.sign(this.encryptedWallet, this.id, encryptionPass, keyRef, rfc4648_1.base64url.stringify(data))];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent(), 'base64'])];
@@ -306,27 +296,20 @@ var SoftwareKeyProvider = /** @class */ (function () {
     };
     /**
      * Decrypts given data using the ref args and optional additional authenticated data
+     * @NOTE The "aad" argument is currently NOT USED by the rust cryptoUtils implementation
      * @param refArgs - Password for wallet decryption and ref path
      * @param data - The data to decrypt. format depends on referenced key type
      * @example `await vault.decrypt({keyRef: ..., decryptionPass: ...}, Buffer <...>, Buffer <...>) // Promise<Buffer> <...>`
      */
     SoftwareKeyProvider.prototype.decrypt = function (refArgs, data, aad) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, _b, _c;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         _b = (_a = Buffer).from;
-                        if (!aad) return [3 /*break*/, 2];
-                        return [4 /*yield*/, this._utils.decrypt(this.encryptedWallet, this.id, refArgs.encryptionPass, rfc4648_1.base64url.stringify(data), refArgs.keyRef, rfc4648_1.base64url.stringify(aad))];
-                    case 1:
-                        _c = _d.sent();
-                        return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, this._utils.decrypt(this.encryptedWallet, this.id, refArgs.encryptionPass, rfc4648_1.base64url.stringify(data), refArgs.keyRef)];
-                    case 3:
-                        _c = _d.sent();
-                        _d.label = 4;
-                    case 4: return [2 /*return*/, _b.apply(_a, [_c, 'base64'])];
+                        return [4 /*yield*/, this._utils.decrypt(this.encryptedWallet, this.id, refArgs.encryptionPass, refArgs.keyRef, rfc4648_1.base64url.stringify(data), aad && rfc4648_1.base64url.stringify(aad))];
+                    case 1: return [2 /*return*/, _b.apply(_a, [_c.sent(), 'base64'])];
                 }
             });
         });
