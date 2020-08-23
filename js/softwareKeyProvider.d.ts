@@ -50,6 +50,9 @@ export declare class SoftwareKeyProvider implements IVaultedKeyProvider {
     newKeyPair(pass: string, keyType: KeyTypes, controller?: string): Promise<PublicKeyInfo>;
     /**
      * Adds content to the wallet
+     * NOTE - Hex strings passed in should not be 0x prefixed, otherwise
+     * an error occurs.
+     * TODO Fix / handle this
      * @param pass - Password for wallet decryption
      * @param content - content to be added
      * @example `await vault.addContent(pass, {...}) Promise<void>`
