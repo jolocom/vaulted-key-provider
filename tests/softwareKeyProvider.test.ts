@@ -1,7 +1,7 @@
 import { SoftwareKeyProvider, KeyTypes } from "../src";
 
 // Testing against a specific implementation
-import { walletUtils, getIcp } from '@jolocom/native-core-node-linux-x64'
+import { walletUtils, getIcp } from '@jolocom/native-core-node'
 
 const id = "my_wallet_id"
 const id2 = "my_other_wallet_id"
@@ -38,7 +38,7 @@ describe("Software Key Provider", () => {
 
     expect(wallet.getPubKey({keyRef: newKey.id, encryptionPass: p1})).resolves.toEqual(newKey)
     expect(wallet.getPubKeyByController(p1, `${id}#key-1`)).resolves.toEqual(newKey)
-    
+    expect(wallet.getPubKeyByController(p1, "not a real controller")).rejects.toBeTruthy()    
   });
   
   test("It should create a new empty wallet and add the supported content entries", async () => {
@@ -61,23 +61,14 @@ describe("Software Key Provider", () => {
 
     await wallet.addContent(
       p1,
-      mockKeyEntry
-    )
-
-    await wallet.addContent(
-      p1,
       { ...mockKeyEntry,
         private_key: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
       }
     )
 
     const keys = await wallet.getPubKeys(p1)
-    expect(keys.length).toEqual(2)
+    expect(keys.length).toEqual(1)
     expect(keys[0]).toMatchObject(mockKeyEntry)
-    expect(keys[1]).toMatchObject({
-      mockKeyEntry,
-      private_key: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-    })
   });
 
   test("It should incept a keri ID", async () => {

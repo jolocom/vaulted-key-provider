@@ -2,7 +2,7 @@ import { SoftwareKeyProvider, KeyTypes, getCryptoProvider } from "../src";
 import { base64url } from 'rfc4648'
 
 // Testing against a specific implementation
-import { walletUtils, cryptoUtils, getIcp } from '@jolocom/native-core-node-linux-x64'
+import { walletUtils, cryptoUtils, getIcp } from '@jolocom/native-core-node'
 
 const id = "my_wallet_id"
 const p1 = "password 1"

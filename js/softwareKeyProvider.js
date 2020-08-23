@@ -181,6 +181,9 @@ var SoftwareKeyProvider = /** @class */ (function () {
     };
     /**
      * Adds content to the wallet
+     * NOTE - Hex strings passed in should not be 0x prefixed, otherwise
+     * an error occurs.
+     * TODO Fix / handle this
      * @param pass - Password for wallet decryption
      * @param content - content to be added
      * @example `await vault.addContent(pass, {...}) Promise<void>`
@@ -293,8 +296,9 @@ var SoftwareKeyProvider = /** @class */ (function () {
                 switch (_c.label) {
                     case 0:
                         encryptionPass = refArgs.encryptionPass, keyRef = refArgs.keyRef;
+                        console.log(rfc4648_1.base64url.stringify(data));
                         _b = (_a = Buffer).from;
-                        return [4 /*yield*/, this._utils.sign(this.encryptedWallet, this.id, encryptionPass, rfc4648_1.base64url.stringify(data), keyRef)];
+                        return [4 /*yield*/, this._utils.sign(this.encryptedWallet, this.id, encryptionPass, keyRef, rfc4648_1.base64url.stringify(data))];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent(), 'base64'])];
                 }
             });
@@ -314,11 +318,11 @@ var SoftwareKeyProvider = /** @class */ (function () {
                     case 0:
                         _b = (_a = Buffer).from;
                         if (!aad) return [3 /*break*/, 2];
-                        return [4 /*yield*/, this._utils.decrypt(this.encryptedWallet, this.id, refArgs.encryptionPass, data.toString('base64'), refArgs.keyRef, aad.toString('base64'))];
+                        return [4 /*yield*/, this._utils.decrypt(this.encryptedWallet, this.id, refArgs.encryptionPass, rfc4648_1.base64url.stringify(data), refArgs.keyRef, rfc4648_1.base64url.stringify(aad))];
                     case 1:
                         _c = _d.sent();
                         return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, this._utils.decrypt(this.encryptedWallet, this.id, refArgs.encryptionPass, data.toString('base64'), refArgs.keyRef)];
+                    case 2: return [4 /*yield*/, this._utils.decrypt(this.encryptedWallet, this.id, refArgs.encryptionPass, rfc4648_1.base64url.stringify(data), refArgs.keyRef)];
                     case 3:
                         _c = _d.sent();
                         _d.label = 4;
