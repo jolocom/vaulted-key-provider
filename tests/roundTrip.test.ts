@@ -58,14 +58,12 @@ describe("Round Trips", () => {
       encryptTo,
       encryptionKey.type,
       message,
-      Buffer.from('afaf', 'hex')
     )
 
     const decryptyptedMessage = await wallet.decrypt({
       encryptionPass: p1,
       keyRef: encryptionKey.controller[0]
-    }, encrypted, Buffer.from('afaf', 'hex'))
-
+    }, encrypted)
 
     expect(decryptyptedMessage).toEqual(message)
   });
