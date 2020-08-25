@@ -1,7 +1,7 @@
 import { SoftwareKeyProvider, KeyTypes } from "../src";
 
 // Testing against a specific implementation
-import { walletUtils, getIcp } from '@jolocom/native-core-node'
+import { walletUtils, getIcp } from '@jolocom/native-core'
 
 const id = "my_wallet_id"
 const id2 = "my_other_wallet_id"

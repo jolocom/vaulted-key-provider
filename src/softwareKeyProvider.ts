@@ -136,7 +136,7 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
       this.encryptedWallet,
       this.id,
       pass,
-      JSON.stringify({"@context": [], id: "", ...content})
+      JSON.stringify(content)
     ), 'base64')
   }
 

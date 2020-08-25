@@ -1,5 +1,5 @@
 import { SoftwareKeyProvider, KeyTypes, getCryptoProvider } from "../src";
-import { walletUtils, cryptoUtils } from '@jolocom/native-core-node'
+import { walletUtils, cryptoUtils } from '@jolocom/native-core'
 
 const id = "my_wallet_id"
 const p1 = "password 1"

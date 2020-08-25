@@ -344,23 +344,23 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@jolocom/native-core-node-darwin-x64@^1.0.0-rc0":
-  version "1.0.0-rc0"
-  resolved "https://registry.yarnpkg.com/@jolocom/native-core-node-darwin-x64/-/native-core-node-darwin-x64-1.0.0-rc0.tgz#c89f2beeaac988c3e62341fb4c4acadb8f69d058"
-  integrity sha512-4ALMRa9r1l+5W/x+IUl5Is/8J/e9EATmRvBy/0l5mWuVmqnJzH72M7LF8pcdaOfi62gPwsKittpCxzXrsQlLuw==
+"@jolocom/native-core-node-darwin-x64@^1.0.0-rc8":
+  version "1.0.0-rc8"
+  resolved "https://registry.yarnpkg.com/@jolocom/native-core-node-darwin-x64/-/native-core-node-darwin-x64-1.0.0-rc8.tgz#9a62b3a9f90164f21bd8e4009ae59f122d5cd9fb"
+  integrity sha512-91HT+y2Y4PY/MDeURMGqgd6tqfJktgn1HCMqiS1GEKtPS8sHvWoSw+a2yyvR4oqe1cfn8t8Ex5uhwfV4Ji5ILQ==
 
-"@jolocom/native-core-node-linux-x64@^1.0.0-rc2.1":
-  version "1.0.0-rc2.1"
-  resolved "https://registry.yarnpkg.com/@jolocom/native-core-node-linux-x64/-/native-core-node-linux-x64-1.0.0-rc2.1.tgz#1711e2f7d3445ec4100b900c8dd1a01114e268e9"
-  integrity sha512-SCHcBeGeiFnqck8HqaZB1EIG5epGW69ZVrERH8vCyLq340PRyIDE7pTwQXL0w3QUjg/I+tefUWYWngjfL5hdXQ==
+"@jolocom/native-core-node-linux-x64@^1.0.0-rc8":
+  version "1.0.0-rc8"
+  resolved "https://registry.yarnpkg.com/@jolocom/native-core-node-linux-x64/-/native-core-node-linux-x64-1.0.0-rc8.tgz#b55632f2afa34930fdf73c3205f78561837497b6"
+  integrity sha512-Y72VVorKQoFszBMWyYTvyxLX9Sf2oGaKZihbvReUqPi8pBNHgUYnaO23w1AMzg+pmlyXlFtrvAOksCn8FT2Qzg==
 
-"@jolocom/native-core-node@^0.7.17":
-  version "0.7.17"
-  resolved "https://registry.yarnpkg.com/@jolocom/native-core-node/-/native-core-node-0.7.17.tgz#bd1ea52fed84f8d5dcfb9cb83c21fff6127b4e88"
-  integrity sha512-76gRls0swf30Xd/vkraB15PGqEDKgS4xPFLW4Y+FJMePYzIhKOuWLBt2PSoKNM9ltOGAZJSd9m+I+ppZitefBg==
+"@jolocom/native-core@^0.7.17":
+  version "0.7.22"
+  resolved "https://registry.yarnpkg.com/@jolocom/native-core/-/native-core-0.7.22.tgz#3124aaa99056e2493e42d73ec45097bbfaadca40"
+  integrity sha512-oZ0Qdo0fNGlcWaLMzdoLGNrQlb4RpKUkC/u3YTJl2mk/jKDlPfF4H/VOrgAIG5uoPwqsQAp+OlkGRw2DZDjUgA==
   optionalDependencies:
-    "@jolocom/native-core-node-darwin-x64" "^1.0.0-rc0"
-    "@jolocom/native-core-node-linux-x64" "^1.0.0-rc2.1"
+    "@jolocom/native-core-node-darwin-x64" "^1.0.0-rc8"
+    "@jolocom/native-core-node-linux-x64" "^1.0.0-rc8"
 
 "@types/babel__core@^7.1.0":
   version "7.1.9"
