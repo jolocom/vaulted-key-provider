@@ -161,6 +161,11 @@ describe("Software Key Provider", () => {
       `${id}#key-2`
     )
     
+    const secpRecovKey = await wallet.newKeyPair(
+      p1,
+      KeyTypes.ecdsaSecp256k1RecoveryMethod2020,
+      `${id}#key-3`
+    )
     
     const message = Buffer.from("hello there")
     
@@ -174,13 +179,19 @@ describe("Software Key Provider", () => {
       keyRef: secpKey.controller[0]
     }, message)
 
+    const recoverableSig = await wallet.sign({
+      encryptionPass: p1,
+      keyRef: secpRecovKey.controller[0]
+    }, message)
+
 
     expect(await verifySignature(Buffer.from(edKey.publicKeyHex, 'hex'), edKey.type, message, edSig)).toBe(true)
     expect(await verifySignature(Buffer.from(secpKey.publicKeyHex, 'hex'), secpKey.type, message, secpSig)).toBe(true)
+    expect(await verifySignature(Buffer.from(secpRecovKey.publicKeyHex, 'hex'), secpRecovKey.type, message, recoverableSig)).toBe(true)
 
-    // TODO Sort out the inconsistency
     expect(await verifySignature(Buffer.from(secpKey.publicKeyHex, 'hex'), secpKey.type, message.slice(1), secpSig)).toBe(false)
     expect(await verifySignature(Buffer.from(edKey.publicKeyHex, 'hex'), edKey.type, message.slice(1), edSig)).toBe(false)
+    expect(await verifySignature(Buffer.from(secpRecovKey.publicKeyHex, 'hex'), secpRecovKey.type, message.slice(1), recoverableSig)).toBe(false)
   })
   
   test("It should change password", async () => {
