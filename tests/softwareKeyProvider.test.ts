@@ -1,12 +1,13 @@
-import { SoftwareKeyProvider, KeyTypes } from "../src";
+import { SoftwareKeyProvider, KeyTypes, CryptoUtils, getCryptoProvider } from "../src";
 
 // Testing against a specific implementation
-import { walletUtils, getIcp } from '@jolocom/native-core'
+import { walletUtils, getIcp, cryptoUtils } from '@jolocom/native-core'
 
 const id = "my_wallet_id"
 const id2 = "my_other_wallet_id"
 const p1 = "password 1"
 const p2 = "password 2"
+const verifySignature = getCryptoProvider(cryptoUtils).verify
 
 describe("Software Key Provider", () => {
   test("It should create a new empty wallet and add a key", async () => {
@@ -34,7 +35,6 @@ describe("Software Key Provider", () => {
       p1,
       KeyTypes.ecdsaSecp256k1VerificationKey2019,
     )
-
 
     expect(enc_str).not.toEqual(wallet.encryptedWallet)
     
@@ -142,26 +142,45 @@ describe("Software Key Provider", () => {
     await getIcp({encryptedWallet: wallet.encryptedWallet, id: id, pass: p1})
   })
   
-  test("It should sign", async () => {
+  test("It should sign using secp256k1 and ed25519", async () => {
     const wallet = await SoftwareKeyProvider.newEmptyWallet(
       walletUtils,
       id,
       p1
     )
-    const newKey = await wallet.newKeyPair(
+
+    const edKey = await wallet.newKeyPair(
       p1,
-      KeyTypes.ecdsaSecp256k1VerificationKey2019,
+      KeyTypes.ed25519VerificationKey2018,
       `${id}#key-1`
     )
+
+    const secpKey = await wallet.newKeyPair(
+      p1,
+      KeyTypes.ecdsaSecp256k1VerificationKey2019,
+      `${id}#key-2`
+    )
+    
     
     const message = Buffer.from("hello there")
     
-    const sig = await wallet.sign({
+    const edSig = await wallet.sign({
       encryptionPass: p1,
-      keyRef: newKey.controller[0]
+      keyRef: edKey.controller[0]
     }, message)
 
-    expect(sig.length).toEqual(64)
+    const secpSig = await wallet.sign({
+      encryptionPass: p1,
+      keyRef: secpKey.controller[0]
+    }, message)
+
+
+    expect(await verifySignature(Buffer.from(edKey.publicKeyHex, 'hex'), edKey.type, message, edSig)).toBe(true)
+    expect(await verifySignature(Buffer.from(secpKey.publicKeyHex, 'hex'), secpKey.type, message, secpSig)).toBe(true)
+
+    // TODO Sort out the inconsistency
+    expect(await verifySignature(Buffer.from(secpKey.publicKeyHex, 'hex'), secpKey.type, message.slice(1), secpSig)).toBe(false)
+    expect(await verifySignature(Buffer.from(edKey.publicKeyHex, 'hex'), edKey.type, message.slice(1), edSig)).toBe(false)
   })
   
   test("It should change password", async () => {

@@ -14,7 +14,14 @@ export const getCryptoProvider = (
     type,
     base64url.stringify(data),
     base64url.stringify(sig),
-  ),
+  ).catch((e) => {
+    /* 
+     * TODO Currently the ed25519 verification fn in rust throws in case verification fails
+     * which is inconsistent with the secp256k1 behaviour.
+     */
+
+    return false
+  }),
 
   encrypt: async (
     key: Buffer,
