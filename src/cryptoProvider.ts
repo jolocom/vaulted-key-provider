@@ -27,16 +27,13 @@ export const getCryptoProvider = (
     key: Buffer,
     type: KeyTypes,
     toEncrypt: Buffer,
-  ): Promise<Buffer> => {
-    const res = await u.encrypt(
+  ): Promise<Buffer> => Buffer.from(
+    await u.encrypt(
       base64url.stringify(key),
       type,
       base64url.stringify(toEncrypt),
       ''
-    )
-
-    return Buffer.from(Buffer.from(res, 'base64'))
-  },
+    ), 'base64'),
     
   getRandom: async (
     nr: number

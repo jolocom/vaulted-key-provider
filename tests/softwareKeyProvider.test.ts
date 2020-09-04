@@ -1,4 +1,4 @@
-import { SoftwareKeyProvider, KeyTypes, CryptoUtils, getCryptoProvider } from "../src";
+import { SoftwareKeyProvider, KeyTypes, getCryptoProvider } from "../src";
 
 // Testing against a specific implementation
 import { walletUtils, getIcp, cryptoUtils } from '@jolocom/native-core'
@@ -231,5 +231,26 @@ describe("Software Key Provider", () => {
     expect(wallet.id).toEqual(id2)
 
     await expect(wallet.getPubKeys(p1)).resolves.toEqual([])
-  });  
+  });
+
+  test("It should decrypt", async () => {
+    const crp = getCryptoProvider(cryptoUtils)
+    const wallet = await SoftwareKeyProvider.newEmptyWallet(
+      walletUtils,
+      id,
+      p1
+    )
+    const message = Buffer.from("hello there")
+
+    const newKey = await wallet.newKeyPair(
+      p1,
+      KeyTypes.x25519KeyAgreementKey2019,
+    )
+
+    const encryptedMessage = await crp.encrypt(Buffer.from(newKey.publicKeyHex, 'hex'), KeyTypes.x25519KeyAgreementKey2019, message)
+
+    const decryptedMessage = await wallet.decrypt({ encryptionPass: p1, keyRef: newKey.controller[0] }, encryptedMessage)
+
+    expect(decryptedMessage).toEqual(message)
+  })
 });

@@ -48,13 +48,13 @@ exports.getCryptoProvider = function (u) { return ({
         });
     }); },
     encrypt: function (key, type, toEncrypt) { return __awaiter(void 0, void 0, void 0, function () {
-        var res;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, u.encrypt(rfc4648_1.base64url.stringify(key), type, rfc4648_1.base64url.stringify(toEncrypt), '')];
-                case 1:
-                    res = _a.sent();
-                    return [2 /*return*/, Buffer.from(Buffer.from(res, 'base64'))];
+        var _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    _b = (_a = Buffer).from;
+                    return [4 /*yield*/, u.encrypt(rfc4648_1.base64url.stringify(key), type, rfc4648_1.base64url.stringify(toEncrypt), '')];
+                case 1: return [2 /*return*/, _b.apply(_a, [_c.sent(), 'base64'])];
             }
         });
     }); },
