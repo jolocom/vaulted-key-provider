@@ -1,6 +1,10 @@
 import { KeyTypes, CryptoUtils, PublicKeyInfo, ICryptoProvider } from './types'
 import { base64url } from 'rfc4648'
 
+/**
+ * Wraps a CryptoUtils implementation object to return an object implementing ICryptoProvider 
+ * @param utils - crypto function implementations required to perform necessary crypto ops
+ */
 export const getCryptoProvider = (
   u: CryptoUtils
 ): ICryptoProvider => ({

@@ -14,9 +14,9 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
   private readonly _utils: EncryptedWalletUtils
 
   /**
-   * Initializes the vault with an already aes-256-gcm encrypted wallet
+   * Initializes the vault with an already xChaCha20Poly1305 encrypted wallet
    * @param utils - crypto function implementations required to perform necessary wallet ops
-   * @param encryptedWallet - the wallet ciphertext, aes-256-gcm
+   * @param encryptedWallet - the wallet ciphertext, xChaCha20Poly1305 encrypted
    * @param id - the id, linked to the ciphertext as its aad
    */
   public constructor(utils: EncryptedWalletUtils, encryptedWallet: Buffer, id: string) {
