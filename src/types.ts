@@ -69,19 +69,48 @@ export interface PublicKeyInfo {
   controller: string[]
 };
 
+/**
+ * Interface for operations relying on an encrypted Wallet representation.
+ *
+ * This interface represents a set of pure functions for operations which require
+ * a state which should be kept encrypted.
+ */ 
 export interface EncryptedWalletUtils {
+
+  /**
+   * Returns an empty encrypted wallet with the given id
+   * The ID is used for Additional Authenticated Data and is required for decryption of the wallet
+   * @param id - id to assign to the wallet
+   * @param pass - password to encrypt the wallet
+   * @returns base64 encoded, xChaCha20Poly1305-encrypted wallet
+   */
   newWallet: (
     id: string,
     pass: string
   ) => Promise<string>,
-  
+
+  /**
+   * Returns an encrypted wallet with the same contents but a new password
+   * @param encryptedWallet - id to assign to the wallet
+   * @param id - id to assign to the wallet
+   * @param pass - password to encrypt the wallet
+   * @returns base64 encoded, xChaCha20Poly1305-encrypted wallet
+   */ 
   changePass: (
     encryptedWallet: string,
     id: string,
     oldPass: string,
     newPass: string
   ) => Promise<string>,
-  
+
+  /**
+   * Returns an encrypted wallet with same contents but a new ID
+   * @param encryptedWallet - encrypted wallet data, base64-url encoded
+   * @param id - id of the wallet
+   * @param newId - new id to assign to the wallet
+   * @param pass - password to decrypt the wallet
+   * @returns encrypted wallet state with new ID, base64-url encoded
+   */ 
   changeId: (
     encryptedWallet: string,
     id: string,
@@ -89,6 +118,19 @@ export interface EncryptedWalletUtils {
     pass: string
   ) => Promise<string>,
 
+  /**
+   * Generates a new key of a particular type and adds it to the encrypted wallet
+   * NOTE: controller is intended to represent an external reference to a
+   * verification method for which this key pair is used e.g. `did:jolo:12345#keys-1`.
+   * Controller values SHOULD NOT be duplicated within the wallet, or the `byController`
+   * API may become inconsistant.
+   * @param encryptedWallet - encrypted wallet data, base64-url encoded
+   * @param id - id of the wallet
+   * @param pass - password to decrypt the wallet
+   * @param keyType - Type of key pair to generate
+   * @param controller - Optional controller value to add to new key pair's controller list
+   * @returns encrypted wallet state with added key pair, base64-url encoded
+   */ 
   newKey: (
     encryptedWallet: string,
     id: string,
@@ -97,6 +139,15 @@ export interface EncryptedWalletUtils {
     controller?: string
   ) => Promise<string>,
 
+  /**
+   * Imports a content item into the encrypted wallet.
+   * See the UniversalWallet2020 spec for which content types should be supported
+   * @param encryptedWallet - encrypted wallet data, base64-url encoded
+   * @param id - id of the wallet
+   * @param pass - password to decrypt the wallet
+   * @param content - content item to be added, as stringified JSON
+   * @returns encrypted wallet state with added content, base64-url encoded
+   */ 
   addContent: (
     encryptedWallet: string,
     id: string,
@@ -104,6 +155,14 @@ export interface EncryptedWalletUtils {
     content: string
   ) => Promise<string>,
   
+  /**
+   * Retreives public key information from the encrypted wallet's contents
+   * @param encryptedWallet - encrypted wallet data, base64-url encoded
+   * @param id - id of the wallet
+   * @param pass - password to decrypt the wallet
+   * @param keyRef - URN identifier of the key in the wallet
+   * @returns Public key content item as stringified JSON
+   */ 
   getKey: (
     encryptedWallet: string,
     id: string,
@@ -111,6 +170,14 @@ export interface EncryptedWalletUtils {
     keyRef: string
   ) => Promise<string>,
 
+  /**
+   * Retreives public key information from the encryptet wallet's contents based on the Controller value
+   * @param encryptedWallet - encrypted wallet data, base64-url encoded
+   * @param id - id of the wallet
+   * @param pass - password to decrypt the wallet
+   * @param controller - controller value to search keys by
+   * @returns Public key content item as stringified JSON
+   */ 
   getKeyByController: (
     encryptedWallet: string,
     id: string,
