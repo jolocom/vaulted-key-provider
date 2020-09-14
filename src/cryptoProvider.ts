@@ -1,4 +1,4 @@
-import { KeyTypes, CryptoUtils, PublicKeyInfo, ICryptoProvider } from './types'
+import { KeyTypes, CryptoUtils, ICryptoProvider } from './types'
 import { base64url } from 'rfc4648'
 
 /**

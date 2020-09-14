@@ -52,7 +52,7 @@ export interface ICryptoProvider {
    * @param toEncrypt - Plaintext to encrypt
    * @returns ciphertext result of performing Key Agreement and Symmetrical encryption of `type` with `key` and `toEncrypt`
    */
-  encrypt: (key: Buffer, type: KeyTypes, toEncrypt: Buffer, aad?: Buffer) => Promise<Buffer>,
+  encrypt: (key: Buffer, type: KeyTypes, toEncrypt: Buffer) => Promise<Buffer>,
 
   /**
    * Creates a buffer of random bytes
@@ -171,7 +171,7 @@ export interface EncryptedWalletUtils {
   ) => Promise<string>,
 
   /**
-   * Retreives public key information from the encryptet wallet's contents based on the Controller value
+   * Retreives public key information from the encrypted wallet's contents based on the Controller value
    * @param encryptedWallet - encrypted wallet data, base64-url encoded
    * @param id - id of the wallet
    * @param pass - password to decrypt the wallet
@@ -185,6 +185,15 @@ export interface EncryptedWalletUtils {
     controller: string
   ) => Promise<string>,
 
+  /**
+   * Sets the value of the Controller field for a given key in the encrypted wallet
+   * @param encryptedWallet - encrypted wallet data, base64-url encoded
+   * @param id - id of the wallet
+   * @param pass - password to decrypt the wallet
+   * @param keyRef - URN identifier of the key in the wallet
+   * @param controller - controller value to set on the key
+   * @returns encrypted wallet state with updated content, base64-url encoded
+   */ 
   setKeyController: (
     encryptedWallet: string,
     id: string,
@@ -193,12 +202,28 @@ export interface EncryptedWalletUtils {
     controller: string
   ) => Promise<string>,
   
+  /**
+   * Returns all public key material in the wallet
+   * @param encryptedWallet - encrypted wallet data, base64-url encoded
+   * @param id - id of the wallet
+   * @param pass - password to decrypt the wallet
+   * @returns List of PublicKeyInfo content items as stringified JSON
+   */ 
   getKeys: (
     encryptedWallet: string,
     id: string,
     pass: string
   ) => Promise<string>,
 
+  /**
+   * Signs the given data with the referenced key
+   * @param encryptedWallet - encrypted wallet data, base64-url encoded
+   * @param id - id of the wallet
+   * @param pass - password to decrypt the wallet
+   * @param keyRef - URN of key to use for signing
+   * @param data - data to sign
+   * @returns Signature, base64-url encoded
+   */ 
   sign: (
     encryptedWallet: string,
     id: string,
@@ -207,13 +232,21 @@ export interface EncryptedWalletUtils {
     data: string,
   ) => Promise<string>,
 
+  /**
+   * Decrypts the given ciphertext using the referenced key
+   * @param encryptedWallet - encrypted wallet data, base64-url encoded
+   * @param id - id of the wallet
+   * @param pass - password to decrypt the wallet
+   * @param keyRef - URN of key to use for decryption
+   * @param ciphertext - ciphertext to decrypt
+   * @returns Plaintext, base64-url
+   */ 
   decrypt: (
     encryptedWallet: string,
     id: string,
     pass: string,
     keyRef: string,
-    data: string,
-    aad?: string
+    ciphertext: string,
   ) => Promise<string>,
 };
 
@@ -254,6 +287,5 @@ export interface CryptoUtils {
     key: string,
     type: string,
     toEncrypt: string,
-    aad?: string
   ) => Promise<string>
 };
