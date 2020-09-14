@@ -29,9 +29,36 @@ export interface IVaultedKeyProvider {
   newKeyPair: (pass: string, keyType: KeyTypes, controller?: string) => Promise<PublicKeyInfo>
 };
 
+/**
+ * Interface for operations which do not require private key material
+ */
 export interface ICryptoProvider {
+
+  /**
+   * Verifies a given signature with a given public key
+   * @param key - Public key material to verify with
+   * @param type - Type of verification suite to use
+   * @param data - Data to verify against
+   * @param sig - Signature material to verify
+   * @returns result of applying verification method of `type` with `key`, `data` and `signature`
+   */
   verify: (key: Buffer, type: KeyTypes, data: Buffer, sig: Buffer) => Promise<boolean>,
+
+  /**
+   * Anon-crypts data to a given public key
+   * NOTE: implementations may provide anoncryption schemes which differ in their implementation and may not be compatible.
+   * @param key - Public key material to perform Key Agreement with
+   * @param type - Type of Key Agreement to use
+   * @param toEncrypt - Plaintext to encrypt
+   * @returns ciphertext result of performing Key Agreement and Symmetrical encryption of `type` with `key` and `toEncrypt`
+   */
   encrypt: (key: Buffer, type: KeyTypes, toEncrypt: Buffer, aad?: Buffer) => Promise<Buffer>,
+
+  /**
+   * Creates a buffer of random bytes
+   * @param nr - length of buffer desired
+   * @returns Buffer of `nr` random bytes
+   */
   getRandom: (nr: number) => Promise<Buffer>,
 };
 
@@ -124,10 +151,24 @@ export interface EncryptedWalletUtils {
 };
 
 export interface CryptoUtils {
+
+  /**
+   * Creates a buffer of random bytes
+   * @param nr - length of buffer desired
+   * @returns `nr` bytes of random entropy, base64-url encoded
+   */
   getRandom: (
     len: number
   ) => Promise<string>,
 
+  /**
+   * Verifies a given signature with a given public key
+   * @param key - Public key material to verify with, base64-url encoded
+   * @param type - Type of verification suite to use
+   * @param data - Data to verify against, base64-url encoded
+   * @param sig - Signature material to verify, base64-url encoded
+   * @returns result of applying verification method of `type` with `key`, `data` and `signature`
+   */
   verify: (
     key: string,
     type: string,
@@ -135,6 +176,13 @@ export interface CryptoUtils {
     sig: string
   ) => Promise<boolean>,
 
+  /**
+   * Anon-crypts data to a given public key
+   * @param key - Public key material to perform Key Agreement with, base64-url encoded
+   * @param type - Type of Key Agreement to use
+   * @param toEncrypt - Plaintext to encrypt, base64-url encoded
+   * @returns ciphertext result of performing Key Agreement and Symmetrical encryption of `type` with `key` and `toEncrypt`, base64-url encoded
+   */
   encrypt: (
     key: string,
     type: string,
