@@ -226,7 +226,6 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
 
   /**
    * Decrypts given data using the ref args and optional additional authenticated data
-   * @NOTE The "aad" argument is currently NOT USED by the rust cryptoUtils implementation
    * @param refArgs - Password for wallet decryption and ref path
    * @param data - The data to decrypt. format depends on referenced key type
    * @example `await vault.decrypt({keyRef: ..., decryptionPass: ...}, Buffer <...>, Buffer <...>) // Promise<Buffer> <...>`
@@ -241,7 +240,6 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
       refArgs.encryptionPass,
       refArgs.keyRef,
       base64url.stringify(data),
-      ""
     ), 'base64')
   }
 }
