@@ -17,6 +17,9 @@ Vaulted Key Provider implements a simple, secure key store based on an encrypted
 ## Usage
 ### Wallet and Key Creation
 ``` typescript
+import { walletUtils } from '@jolocom/native-core'
+import { SoftwareKeyProvider } from '@jolocom/vaulted-key-provider'
+
 // create an empty wallet
 const id = "my_id"
 const wallet = await SoftwareKeyProvider.newEmptyWallet(
@@ -61,6 +64,9 @@ const newEncryptionKey = await wallet.newKeyPair(
 
 ### Signing and Verification
 ``` typescript
+import { cryptoUtils } from '@jolocom/native-core'
+import { getCryptoProvider } from '@jolocom/vaulted-key-provider'
+
 const crypto = getCryptoProvider(cryptoUtils)
 
 const data = Buffer.from("some arbitrary data")
