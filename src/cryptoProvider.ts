@@ -1,6 +1,10 @@
-import { KeyTypes, CryptoUtils, PublicKeyInfo, ICryptoProvider } from './types'
+import { KeyTypes, CryptoUtils, ICryptoProvider } from './types'
 import { base64url } from 'rfc4648'
 
+/**
+ * Wraps a CryptoUtils implementation object to return an object implementing ICryptoProvider 
+ * @param utils - crypto function implementations required to perform necessary crypto ops
+ */
 export const getCryptoProvider = (
   u: CryptoUtils
 ): ICryptoProvider => ({
@@ -27,16 +31,13 @@ export const getCryptoProvider = (
     key: Buffer,
     type: KeyTypes,
     toEncrypt: Buffer,
-  ): Promise<Buffer> => {
-    const res = await u.encrypt(
+  ): Promise<Buffer> => Buffer.from(
+    await u.encrypt(
       base64url.stringify(key),
       type,
       base64url.stringify(toEncrypt),
       ''
-    )
-
-    return Buffer.from(Buffer.from(res, 'base64'))
-  },
+    ), 'base64'),
     
   getRandom: async (
     nr: number

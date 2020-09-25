@@ -14,9 +14,9 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
   private readonly _utils: EncryptedWalletUtils
 
   /**
-   * Initializes the vault with an already aes-256-gcm encrypted wallet
+   * Initializes the vault with an already xChaCha20Poly1305 encrypted wallet
    * @param utils - crypto function implementations required to perform necessary wallet ops
-   * @param encryptedWallet - the wallet ciphertext, aes-256-gcm
+   * @param encryptedWallet - the wallet ciphertext, xChaCha20Poly1305 encrypted
    * @param id - the id, linked to the ciphertext as its aad
    */
   public constructor(utils: EncryptedWalletUtils, encryptedWallet: Buffer, id: string) {
@@ -226,7 +226,6 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
 
   /**
    * Decrypts given data using the ref args and optional additional authenticated data
-   * @NOTE The "aad" argument is currently NOT USED by the rust cryptoUtils implementation
    * @param refArgs - Password for wallet decryption and ref path
    * @param data - The data to decrypt. format depends on referenced key type
    * @example `await vault.decrypt({keyRef: ..., decryptionPass: ...}, Buffer <...>, Buffer <...>) // Promise<Buffer> <...>`
@@ -241,7 +240,6 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
       refArgs.encryptionPass,
       refArgs.keyRef,
       base64url.stringify(data),
-      ""
     ), 'base64')
   }
 }

@@ -98,5 +98,5 @@ export declare class SoftwareKeyProvider implements IVaultedKeyProvider {
      * @param data - The data to decrypt. format depends on referenced key type
      * @example `await vault.decrypt({keyRef: ..., decryptionPass: ...}, Buffer <...>, Buffer <...>) // Promise<Buffer> <...>`
      */
-    decrypt(refArgs: IKeyRefArgs, data: Buffer, aad?: Buffer): Promise<Buffer>;
+    decrypt(refArgs: IKeyRefArgs, data: Buffer): Promise<Buffer>;
 }
