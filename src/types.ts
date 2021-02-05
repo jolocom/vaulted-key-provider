@@ -26,7 +26,8 @@ export interface IVaultedKeyProvider {
   getPubKeys: (pass: string) => Promise<PublicKeyInfo[]>,
   sign: (refArgs: IKeyRefArgs, data: Buffer) => Promise<Buffer>,
   decrypt: (refArgs: IKeyRefArgs, data: Buffer) => Promise<Buffer>,
-  newKeyPair: (pass: string, keyType: KeyTypes, controller?: string) => Promise<PublicKeyInfo>
+  newKeyPair: (pass: string, keyType: KeyTypes, controller?: string) => Promise<PublicKeyInfo>,
+  ecdhKeyAgreement: (refArgs: IKeyRefArgs, pubKey: Buffer) => Promise<Buffer>
 };
 
 /**
