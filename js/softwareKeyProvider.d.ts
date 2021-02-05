@@ -5,9 +5,9 @@ export declare class SoftwareKeyProvider implements IVaultedKeyProvider {
     private _id;
     private readonly _utils;
     /**
-     * Initializes the vault with an already aes-256-gcm encrypted wallet
+     * Initializes the vault with an already xChaCha20Poly1305 encrypted wallet
      * @param utils - crypto function implementations required to perform necessary wallet ops
-     * @param encryptedWallet - the wallet ciphertext, aes-256-gcm
+     * @param encryptedWallet - the wallet ciphertext, xChaCha20Poly1305 encrypted
      * @param id - the id, linked to the ciphertext as its aad
      */
     constructor(utils: EncryptedWalletUtils, encryptedWallet: Buffer, id: string);
@@ -93,10 +93,16 @@ export declare class SoftwareKeyProvider implements IVaultedKeyProvider {
     sign(refArgs: IKeyRefArgs, data: Buffer): Promise<Buffer>;
     /**
      * Decrypts given data using the ref args and optional additional authenticated data
-     * @NOTE The "aad" argument is currently NOT USED by the rust cryptoUtils implementation
      * @param refArgs - Password for wallet decryption and ref path
      * @param data - The data to decrypt. format depends on referenced key type
-     * @example `await vault.decrypt({keyRef: ..., decryptionPass: ...}, Buffer <...>, Buffer <...>) // Promise<Buffer> <...>`
+     * @example `await vault.decrypt({keyRef: ..., decryptionPass: ...}, Buffer <...>) // Promise<Buffer> <...>`
      */
     decrypt(refArgs: IKeyRefArgs, data: Buffer): Promise<Buffer>;
+    /**
+     * Decrypts given data using the ref args and optional additional authenticated data
+     * @param refArgs - Password for wallet decryption and ref path
+     * @param pubKey - The public key to use for ECDH
+     * @example `await vault.ecdhKeyAgreement({keyRef: ..., decryptionPass: ...}, Buffer <...>) // Promise<Buffer> <...>`
+     */
+    ecdhKeyAgreement(refArgs: IKeyRefArgs, pubKey: Buffer): Promise<Buffer>;
 }

@@ -248,6 +248,23 @@ export interface EncryptedWalletUtils {
     keyRef: string,
     ciphertext: string,
   ) => Promise<string>,
+
+  /**
+   * Performs ECDH Key Agreement with the referenced key and the given public key
+   * @param encryptedWallet - encrypted wallet data, base64-url encoded
+   * @param id - id of the wallet
+   * @param pass - password to decrypt the wallet
+   * @param keyRef - controller of private key to use for ECDH
+   * @param pubKey - public key to perform ECDH with
+   * @returns Plaintext, base64-url
+   */ 
+  ecdhKeyAgreement: (
+    encryptedWallet: string,
+    id: string,
+    pass: string,
+    keyRef: string,
+    pubKey: string
+  ) => Promise<string>
 };
 
 export interface CryptoUtils {

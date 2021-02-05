@@ -38,11 +38,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCryptoProvider = void 0;
 var rfc4648_1 = require("rfc4648");
+/**
+ * Wraps a CryptoUtils implementation object to return an object implementing ICryptoProvider
+ * @param utils - crypto function implementations required to perform necessary crypto ops
+ */
 exports.getCryptoProvider = function (u) { return ({
     verify: function (key, type, data, sig) { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, u.verify(rfc4648_1.base64url.stringify(key), type, rfc4648_1.base64url.stringify(data), rfc4648_1.base64url.stringify(sig))];
+                case 0: return [4 /*yield*/, u.verify(rfc4648_1.base64url.stringify(key), type, rfc4648_1.base64url.stringify(data), rfc4648_1.base64url.stringify(sig)).catch(function (e) {
+                        /*
+                         * TODO Currently the ed25519 verification fn in rust throws in case verification fails
+                         * which is inconsistent with the secp256k1 behaviour.
+                         */
+                        return false;
+                    })];
                 case 1: return [2 /*return*/, _a.sent()];
             }
         });
@@ -53,7 +63,7 @@ exports.getCryptoProvider = function (u) { return ({
             switch (_c.label) {
                 case 0:
                     _b = (_a = Buffer).from;
-                    return [4 /*yield*/, u.encrypt(rfc4648_1.base64url.stringify(key), type, rfc4648_1.base64url.stringify(toEncrypt), '')];
+                    return [4 /*yield*/, u.encrypt(rfc4648_1.base64url.stringify(key), type, rfc4648_1.base64url.stringify(toEncrypt))];
                 case 1: return [2 /*return*/, _b.apply(_a, [_c.sent(), 'base64'])];
             }
         });
