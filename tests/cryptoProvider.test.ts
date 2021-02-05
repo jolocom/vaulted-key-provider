@@ -22,8 +22,8 @@ describe("Crypto Provider", () => {
     test("Generate a random buffer", async () => {
       const crp = getCryptoProvider(cryptoUtils)
 
-      expect(await crp.getRandom(0)).toHaveLength(0)
-      expect(await crp.getRandom(5)).toHaveLength(5)
+      await expect(crp.getRandom(0)).resolves.toHaveLength(0)
+      await expect(crp.getRandom(5)).resolves.toHaveLength(5)
       await expect(crp.getRandom(-5)).rejects.toBeInstanceOf(Error)
     });
 

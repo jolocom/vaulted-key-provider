@@ -264,19 +264,23 @@ describe("Software Key Provider", () => {
       p1,
     )
     const newKey = "ecdh_key"
-    
-    // test vector from rfc7748 6.1
-    await wallet.addContent(p1, {
-      controller: [newKey],
-      type: KeyTypes.x25519KeyAgreementKey2019,
-      publicKeyHex: "8520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a",
-      private_key: "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a"
-    })
 
-    const testPubKey = Buffer.from("de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f", 'hex')
-    expect(wallet.ecdhKeyAgreement({
+    // test vector from rfc7748 6.1
+    const keyContent = {
+      controller: [newKey],
+      type: "X25519KeyAgreementKey2019",
+      publicKeyHex: "8520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a",
+      privateKeyHex: "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a"
+    }
+
+    const ref = {
       encryptionPass: p1,
       keyRef: newKey
-    }, testPubKey)).resolves.toEqual(Buffer.from("4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742", 'hex'))
+    }
+    
+    await wallet.addContent(p1, keyContent)
+
+    const testPubKey = Buffer.from("de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f", 'hex')
+    await expect(wallet.ecdhKeyAgreement(ref, testPubKey)).resolves.toEqual(Buffer.from("4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742", 'hex'))
   })
 });

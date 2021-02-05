@@ -253,7 +253,7 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
     refArgs: IKeyRefArgs,
     pubKey: Buffer,
   ): Promise<Buffer> {
-    return Buffer.from(await this._utils.decrypt(
+    return Buffer.from(await this._utils.ecdhKeyAgreement(
       this.encryptedWallet,
       this.id,
       refArgs.encryptionPass,

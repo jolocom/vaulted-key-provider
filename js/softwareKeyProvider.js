@@ -315,7 +315,7 @@ var SoftwareKeyProvider = /** @class */ (function () {
                 switch (_c.label) {
                     case 0:
                         _b = (_a = Buffer).from;
-                        return [4 /*yield*/, this._utils.decrypt(this.encryptedWallet, this.id, refArgs.encryptionPass, refArgs.keyRef, rfc4648_1.base64url.stringify(pubKey))];
+                        return [4 /*yield*/, this._utils.ecdhKeyAgreement(this.encryptedWallet, this.id, refArgs.encryptionPass, refArgs.keyRef, rfc4648_1.base64url.stringify(pubKey))];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent(), 'base64'])];
                 }
             });
