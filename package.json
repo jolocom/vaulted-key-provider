@@ -1,6 +1,6 @@
 {
   "name": "@jolocom/vaulted-key-provider",
-  "version": "0.9.0",
+  "version": "0.8.0",
   "description": "",
   "main": "js/index.js",
   "files": [
