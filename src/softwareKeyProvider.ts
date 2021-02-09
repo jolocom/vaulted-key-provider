@@ -228,7 +228,7 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
    * Decrypts given data using the ref args and optional additional authenticated data
    * @param refArgs - Password for wallet decryption and ref path
    * @param data - The data to decrypt. format depends on referenced key type
-   * @example `await vault.decrypt({keyRef: ..., decryptionPass: ...}, Buffer <...>, Buffer <...>) // Promise<Buffer> <...>`
+   * @example `await vault.decrypt({keyRef: ..., decryptionPass: ...}, Buffer <...>) // Promise<Buffer> <...>`
    */
   public async decrypt(
     refArgs: IKeyRefArgs,
@@ -240,6 +240,25 @@ export class SoftwareKeyProvider implements IVaultedKeyProvider {
       refArgs.encryptionPass,
       refArgs.keyRef,
       base64url.stringify(data),
+    ), 'base64')
+  }
+
+  /**
+   * Decrypts given data using the ref args and optional additional authenticated data
+   * @param refArgs - Password for wallet decryption and ref path
+   * @param pubKey - The public key to use for ECDH
+   * @example `await vault.ecdhKeyAgreement({keyRef: ..., decryptionPass: ...}, Buffer <...>) // Promise<Buffer> <...>`
+   */
+  public async ecdhKeyAgreement(
+    refArgs: IKeyRefArgs,
+    pubKey: Buffer,
+  ): Promise<Buffer> {
+    return Buffer.from(await this._utils.ecdhKeyAgreement(
+      this.encryptedWallet,
+      this.id,
+      refArgs.encryptionPass,
+      refArgs.keyRef,
+      base64url.stringify(pubKey),
     ), 'base64')
   }
 }

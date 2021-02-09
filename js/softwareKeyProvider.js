@@ -40,9 +40,9 @@ exports.SoftwareKeyProvider = void 0;
 var rfc4648_1 = require("rfc4648");
 var SoftwareKeyProvider = /** @class */ (function () {
     /**
-     * Initializes the vault with an already aes-256-gcm encrypted wallet
+     * Initializes the vault with an already xChaCha20Poly1305 encrypted wallet
      * @param utils - crypto function implementations required to perform necessary wallet ops
-     * @param encryptedWallet - the wallet ciphertext, aes-256-gcm
+     * @param encryptedWallet - the wallet ciphertext, xChaCha20Poly1305 encrypted
      * @param id - the id, linked to the ciphertext as its aad
      */
     function SoftwareKeyProvider(utils, encryptedWallet, id) {
@@ -285,10 +285,9 @@ var SoftwareKeyProvider = /** @class */ (function () {
     };
     /**
      * Decrypts given data using the ref args and optional additional authenticated data
-     * @NOTE The "aad" argument is currently NOT USED by the rust cryptoUtils implementation
      * @param refArgs - Password for wallet decryption and ref path
      * @param data - The data to decrypt. format depends on referenced key type
-     * @example `await vault.decrypt({keyRef: ..., decryptionPass: ...}, Buffer <...>, Buffer <...>) // Promise<Buffer> <...>`
+     * @example `await vault.decrypt({keyRef: ..., decryptionPass: ...}, Buffer <...>) // Promise<Buffer> <...>`
      */
     SoftwareKeyProvider.prototype.decrypt = function (refArgs, data) {
         return __awaiter(this, void 0, void 0, function () {
@@ -297,7 +296,26 @@ var SoftwareKeyProvider = /** @class */ (function () {
                 switch (_c.label) {
                     case 0:
                         _b = (_a = Buffer).from;
-                        return [4 /*yield*/, this._utils.decrypt(this.encryptedWallet, this.id, refArgs.encryptionPass, refArgs.keyRef, rfc4648_1.base64url.stringify(data), "")];
+                        return [4 /*yield*/, this._utils.decrypt(this.encryptedWallet, this.id, refArgs.encryptionPass, refArgs.keyRef, rfc4648_1.base64url.stringify(data))];
+                    case 1: return [2 /*return*/, _b.apply(_a, [_c.sent(), 'base64'])];
+                }
+            });
+        });
+    };
+    /**
+     * Decrypts given data using the ref args and optional additional authenticated data
+     * @param refArgs - Password for wallet decryption and ref path
+     * @param pubKey - The public key to use for ECDH
+     * @example `await vault.ecdhKeyAgreement({keyRef: ..., decryptionPass: ...}, Buffer <...>) // Promise<Buffer> <...>`
+     */
+    SoftwareKeyProvider.prototype.ecdhKeyAgreement = function (refArgs, pubKey) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _b = (_a = Buffer).from;
+                        return [4 /*yield*/, this._utils.ecdhKeyAgreement(this.encryptedWallet, this.id, refArgs.encryptionPass, refArgs.keyRef, rfc4648_1.base64url.stringify(pubKey))];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent(), 'base64'])];
                 }
             });

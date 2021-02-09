@@ -36,7 +36,6 @@ export const getCryptoProvider = (
       base64url.stringify(key),
       type,
       base64url.stringify(toEncrypt),
-      ''
     ), 'base64'),
     
   getRandom: async (
